@@ -1,0 +1,102 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { v4 as uuidv4 } from "uuid";
+
+function CreatePost() {
+  const postId = uuidv4();
+  const [postTitle, setPostTitle] = useState("New Post");
+  const [post, setPost] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+
+  // Handle the initial loading state (checking token in localStorage)
+  if (loadingInitial) {
+    return <p>Loading user information...</p>;
+  }
+
+  // Check if there is a logged-in user
+  if (!currentUser || !currentUser.isAuthenticated) {
+    return <p>You are not logged in.</p>;
+  }
+
+  console.log(currentUser.id);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const postData = {
+      id: postId,
+      title: postTitle,
+      text: post,
+      //   authorId je samo test, treba staviti userId
+      authorId: "prvi",
+      //   userId: currentUser.id,
+    };
+
+    console.log(postData);
+
+    try {
+      const apiEndpoint = `http://localhost:3000/posts`;
+
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create post");
+      }
+
+      const newPost = await response.json();
+      console.log("Post created successfully:", newPost);
+
+      setPost("");
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
+  //   function handleCancelSubmit(event) {
+  //     event.preventDefault();
+  //     handleCancel();
+  //   }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit} className="post-form">
+        <fieldset>
+          <div>
+            <label htmlFor="postTitle">Title: </label>
+            <input
+              type="text"
+              id="postTitle"
+              name="postTitle"
+              onChange={(e) => setPostTitle(e.target.value)}
+              required
+              autoFocus
+              aria-required="true"
+            />
+            <label htmlFor="post">Post: </label>
+            <textarea
+              id="post"
+              name="post"
+              onChange={(e) => setPost(e.target.value)}
+              required
+              autoFocus
+              aria-required="true"
+            ></textarea>
+          </div>
+          <button type="submit">Submit</button>
+          <button>Cancel</button>
+          {/* onClick={handleCancelSubmit} */}
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        </fieldset>
+      </form>
+    </>
+  );
+}
+
+export default CreatePost;
