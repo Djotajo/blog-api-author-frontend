@@ -5,6 +5,7 @@ import PostComment from "./postComment";
 import EditComment from "./editComment";
 import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
+import DeletePost from "./deletePost";
 
 function GetPost() {
   const [authorData, setAuthorData] = useState(null);
@@ -44,7 +45,14 @@ function GetPost() {
           <p>
             {authorData.username} on {FormatPostDate(post.createdAt)}
           </p>
-
+          {currentUser && authorData.id === currentUser.id ? (
+            <>
+              {/* <EditComment commentObject={comment} key={comment.id} /> */}
+              <DeletePost postObject={post} />
+            </>
+          ) : (
+            `Log in user to edit`
+          )}
           <p>Comments: {post.Comment.length}</p>
         </section>
 

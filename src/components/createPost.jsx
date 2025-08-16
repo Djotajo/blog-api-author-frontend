@@ -30,7 +30,7 @@ function CreatePost() {
       title: postTitle,
       text: post,
       //   authorId je samo test, treba staviti userId
-      authorId: "prvi",
+      authorId: currentUser.id,
       //   userId: currentUser.id,
     };
 

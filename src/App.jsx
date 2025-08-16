@@ -9,6 +9,7 @@ import GetPosts from "./components/getPosts";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import GetPost from "./components/getPost";
 import LogIn from "./components/login";
+import AdminLogin from "./components/adminLogin";
 import SignUp from "./components/signup";
 import CreatePost from "./components/createPost";
 
@@ -66,6 +67,9 @@ function App() {
             <li>
               <Link to="/categories">About</Link>
             </li>
+            <li>
+              <Link to="/adminlogin">Admin login</Link>
+            </li>
             <AuthStatus />
           </ul>
         </nav>
@@ -74,6 +78,7 @@ function App() {
           <Route path="/" element={<GetPosts />} />
           <Route path="/items" element={<GetPosts />} />
           <Route path="/newPost" element={<CreatePost />} />
+          <Route path="/adminlogin" element={<AdminLogin />} />
 
           <Route path="/:postId" element={<GetPost />} />
           {/* You can add more routes as needed */}
