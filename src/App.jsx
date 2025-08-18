@@ -12,6 +12,8 @@ import LogIn from "./components/login";
 import AdminLogin from "./components/adminLogin";
 import SignUp from "./components/signup";
 import CreatePost from "./components/createPost";
+import GetDrafts from "./components/getDrafts";
+import GetDraft from "./components/getDraft";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
@@ -65,7 +67,7 @@ function App() {
               <Link to="/newPost">New Post</Link>
             </li>
             <li>
-              <Link to="/categories">About</Link>
+              <Link to="/posts/drafts">Drafts</Link>
             </li>
             <li>
               <Link to="/adminlogin">Admin login</Link>
@@ -77,6 +79,8 @@ function App() {
         <Routes>
           <Route path="/" element={<GetPosts />} />
           <Route path="/posts" element={<GetPosts />} />
+          <Route path="/posts/drafts" element={<GetDrafts />} />
+          <Route path="/posts/drafts/:postId" element={<GetDraft />} />
 
           <Route path="/items" element={<GetPosts />} />
           <Route path="/newPost" element={<CreatePost />} />

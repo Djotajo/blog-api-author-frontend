@@ -31,7 +31,7 @@ function GetPost() {
   if (!post) {
     return <div className="post">Loading or Post not found...</div>;
   }
-
+  console.log(post);
   return (
     <>
       <div className="full-post">

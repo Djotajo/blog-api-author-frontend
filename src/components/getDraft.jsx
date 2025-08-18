@@ -1,26 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
+import FormatPostDate from "./formatPostDate";
+import PostComment from "./postComment";
+import EditComment from "./editComment";
+import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
-import { v4 as uuidv4 } from "uuid";
+import DeletePost from "./deletePost";
 
-function CreatePost() {
-  const postId = uuidv4();
-  const [postTitle, setPostTitle] = useState("New Post");
-  const [post, setPost] = useState("");
+function GetDraft() {
+  const [post, setPost] = useState(null);
+  const { postId } = useParams();
+  const [postTitle, setPostTitle] = useState("");
+  const [postText, setPostText] = useState("");
+  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+  useEffect(() => {
+    async function fetchPostData() {
+      const response = await fetch(`http://localhost:3000/posts/${postId}`);
+      const responseJson = await response.json();
+      setPost(responseJson);
+      setPostTitle(responseJson.title);
+      setPostText(responseJson.text);
+    }
 
-  // Handle the initial loading state (checking token in localStorage)
-  if (loadingInitial) {
-    return <p>Loading user information...</p>;
+    fetchPostData();
+  }, [postId]);
+
+  if (!post) {
+    return <div className="post">Loading or Post not found...</div>;
   }
-
-  // Check if there is a logged-in user
-  if (!currentUser || !currentUser.isAuthenticated) {
-    return <p>You are not logged in.</p>;
-  }
-
-  console.log(currentUser.id);
 
   const handlePublish = async (e) => {
     e.preventDefault();
@@ -100,10 +109,6 @@ function CreatePost() {
       console.error("Error creating post:", error);
     }
   };
-  //   function handleCancelSubmit(event) {
-  //     event.preventDefault();
-  //     handleCancel();
-  //   }
 
   return (
     <>
@@ -115,6 +120,7 @@ function CreatePost() {
               type="text"
               id="postTitle"
               name="postTitle"
+              value={postTitle}
               onChange={(e) => setPostTitle(e.target.value)}
               required
               autoFocus
@@ -124,6 +130,7 @@ function CreatePost() {
             <textarea
               id="post"
               name="post"
+              value={postText}
               onChange={(e) => setPost(e.target.value)}
               required
               autoFocus
@@ -144,4 +151,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
+export default GetDraft;
