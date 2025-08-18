@@ -76,6 +76,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<GetPosts />} />
+          <Route path="/posts" element={<GetPosts />} />
+
           <Route path="/items" element={<GetPosts />} />
           <Route path="/newPost" element={<CreatePost />} />
           <Route path="/adminlogin" element={<AdminLogin />} />

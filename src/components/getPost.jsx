@@ -17,7 +17,7 @@ function GetPost() {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
       const responseJson = await response.json();
-      setAuthorData(responseJson.author);
+      setAuthorData(responseJson);
       setPost(responseJson);
     }
 

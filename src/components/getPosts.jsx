@@ -12,7 +12,8 @@ function GetPosts() {
       const responseJson = await response.json();
       console.log(response);
       setAuthorData(responseJson);
-      setPosts(responseJson.Post);
+      setPosts(responseJson);
+      console.log(posts);
     }
 
     fetchPostData();
@@ -41,7 +42,7 @@ function GetPosts() {
                 <div className="post-footer">
                   {" "}
                   <span>
-                    {authorData.username} on {FormatPostDate(post.createdAt)}
+                    {authorData.author} on {FormatPostDate(post.createdAt)}
                   </span>
                   <span className="post-comment">
                     <i className="material-icons">comment</i>{" "}
