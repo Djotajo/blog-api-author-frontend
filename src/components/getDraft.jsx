@@ -6,6 +6,7 @@ import EditComment from "./editComment";
 import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
+import { useNavigate } from "react-router-dom";
 
 function GetDraft() {
   const [post, setPost] = useState(null);
@@ -14,6 +15,7 @@ function GetDraft() {
   const [postText, setPostText] = useState("");
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPostData() {
@@ -37,7 +39,7 @@ function GetDraft() {
     const postData = {
       id: postId,
       title: postTitle,
-      text: post,
+      text: postText,
       //   authorId je samo test, treba staviti userId
       authorId: currentUser.id,
       published: true,
@@ -50,7 +52,7 @@ function GetDraft() {
       const apiEndpoint = `http://localhost:3000/posts`;
 
       const response = await fetch(apiEndpoint, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -76,7 +78,7 @@ function GetDraft() {
     const postData = {
       id: postId,
       title: postTitle,
-      text: post,
+      text: postText,
       //   authorId je samo test, treba staviti userId
       authorId: currentUser.id,
       published: false,
@@ -87,10 +89,10 @@ function GetDraft() {
     console.log(postData);
 
     try {
-      const apiEndpoint = `http://localhost:3000/posts`;
+      const apiEndpoint = `http://localhost:3000/posts/drafts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -98,15 +100,16 @@ function GetDraft() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create post");
+        throw new Error("Failed to save draft");
       }
 
       const newPost = await response.json();
-      console.log("Post created successfully:", newPost);
+      console.log("Draft saved successfully:", newPost);
+      navigate(`/posts/drafts`);
 
       setPost("");
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error saving draft:", error);
     }
   };
 
@@ -128,10 +131,10 @@ function GetDraft() {
             />
             <label htmlFor="post">Post: </label>
             <textarea
-              id="post"
-              name="post"
+              id="postText"
+              name="postText"
               value={postText}
-              onChange={(e) => setPost(e.target.value)}
+              onChange={(e) => setPostText(e.target.value)}
               required
               autoFocus
               aria-required="true"
@@ -141,12 +144,12 @@ function GetDraft() {
           <button onClick={handleSaveDraft} type="button">
             Save as draft
           </button>
-
           <button>Cancel</button>
           {/* onClick={handleCancelSubmit} */}
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </fieldset>
       </form>
+      <DeletePost postObject={post} />
     </>
   );
 }

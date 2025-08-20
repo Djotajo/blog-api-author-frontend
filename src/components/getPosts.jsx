@@ -3,7 +3,6 @@ import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
 
 function GetPosts() {
-  const [authorData, setAuthorData] = useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -11,9 +10,7 @@ function GetPosts() {
       const response = await fetch(`http://localhost:3000/posts/`);
       const responseJson = await response.json();
       console.log(response);
-      setAuthorData(responseJson);
       setPosts(responseJson);
-      console.log(posts);
     }
 
     fetchPostData();
@@ -42,7 +39,7 @@ function GetPosts() {
                 <div className="post-footer">
                   {" "}
                   <span>
-                    {authorData.author} on {FormatPostDate(post.createdAt)}
+                    {post.author.username} on {FormatPostDate(post.createdAt)}
                   </span>
                   <span className="post-comment">
                     <i className="material-icons">comment</i>{" "}

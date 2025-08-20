@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
   const postId = uuidv4();
   const [postTitle, setPostTitle] = useState("New Post");
   const [post, setPost] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
@@ -96,6 +98,7 @@ function CreatePost() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
+      navigate(`/posts/drafts`);
     } catch (error) {
       console.error("Error creating post:", error);
     }

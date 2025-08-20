@@ -8,7 +8,6 @@ import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
 
 function GetPost() {
-  const [authorData, setAuthorData] = useState(null);
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
@@ -17,12 +16,11 @@ function GetPost() {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
       const responseJson = await response.json();
-      setAuthorData(responseJson);
       setPost(responseJson);
     }
 
     fetchPostData();
-  }, [post]);
+  }, []);
 
   const paragraphs = useMemo(() => {
     return post?.text ? post.text.split("\n\n") : [];
@@ -43,9 +41,9 @@ function GetPost() {
             ))}
           </div>
           <p>
-            {authorData.username} on {FormatPostDate(post.createdAt)}
+            {post.author.username} on {FormatPostDate(post.createdAt)}
           </p>
-          {currentUser && authorData.id === currentUser.id ? (
+          {currentUser && post.authorId === currentUser.id ? (
             <>
               {/* <EditComment commentObject={comment} key={comment.id} /> */}
               <DeletePost postObject={post} />
