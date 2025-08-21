@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
 
-function GetDrafts() {
+function GetDrafts({ authorId = undefined }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(`http://localhost:3000/posts/drafts/`);
+      const url = authorId
+        ? `http://localhost:3000/posts/drafts/${authorId}`
+        : `http://localhost:3000/posts/drafts/`;
+      // const response = await fetch(`http://localhost:3000/posts/drafts/`);
+      const response = await fetch(url);
+
       const responseJson = await response.json();
       setPosts(responseJson);
       console.log(posts);
@@ -18,15 +23,8 @@ function GetDrafts() {
 
   return (
     <>
-      <div className="hero">
-        <div className="hero-left"></div>
-        <div className="hero-right">
-          <h2>Just another random blog for TOP</h2>
-        </div>
-      </div>
-
       <div className="posts">
-        <h1>Posts</h1>
+        <h1>Drafts</h1>
         <ul>
           {posts.map((post) => (
             <li key={post.id} className="posts-list-item">
