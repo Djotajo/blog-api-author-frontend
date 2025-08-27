@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
 import { useNavigate } from "react-router-dom";
 
-function GetDraft() {
+function EditPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const [postTitle, setPostTitle] = useState("");
@@ -29,46 +29,7 @@ function GetDraft() {
     return <div className="post">Loading or Post not found...</div>;
   }
 
-  const handlePublish = async (e) => {
-    e.preventDefault();
-
-    const postData = {
-      id: postId,
-      title: postTitle,
-      text: postText,
-      //   authorId je samo test, treba staviti userId
-      authorId: currentUser.id,
-      published: true,
-      //   userId: currentUser.id,
-    };
-
-    console.log(postData);
-
-    try {
-      const apiEndpoint = `http://localhost:3000/posts`;
-
-      const response = await fetch(apiEndpoint, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create post");
-      }
-
-      const newPost = await response.json();
-      console.log("Post created successfully:", newPost);
-
-      setPost("");
-    } catch (error) {
-      console.error("Error creating post:", error);
-    }
-  };
-
-  const handleSaveDraft = async (e) => {
+  const handleSaveEdit = async (e) => {
     e.preventDefault();
 
     const postData = {
@@ -85,7 +46,7 @@ function GetDraft() {
     console.log(postData);
 
     try {
-      const apiEndpoint = `http://localhost:3000/posts/drafts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/posts/${postId}/edit`;
 
       const response = await fetch(apiEndpoint, {
         method: "PUT",
@@ -96,22 +57,22 @@ function GetDraft() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save draft");
+        throw new Error("Failed to edit post");
       }
 
       const newPost = await response.json();
-      console.log("Draft saved successfully:", newPost);
-      navigate(`/posts/drafts`);
+      console.log("Post edited successfully:", newPost);
+      navigate(`/`);
 
       setPost("");
     } catch (error) {
-      console.error("Error saving draft:", error);
+      console.error("Error editing post:", error);
     }
   };
 
   return (
     <>
-      <form onSubmit={handlePublish} className="post-form">
+      <form onSubmit={handleSaveEdit} className="post-form">
         <fieldset>
           <div>
             <label htmlFor="postTitle">Title: </label>
@@ -136,10 +97,10 @@ function GetDraft() {
               aria-required="true"
             ></textarea>
           </div>
-          <button type="submit">Publish</button>
-          <button onClick={handleSaveDraft} type="button">
-            Save as draft
-          </button>
+          <button type="submit">Save changes</button>
+          {/* <button onClick={handleSaveDraft} type="button">
+            Unpublish post
+          </button> */}
           <button>Cancel</button>
           {/* onClick={handleCancelSubmit} */}
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
@@ -150,4 +111,4 @@ function GetDraft() {
   );
 }
 
-export default GetDraft;
+export default EditPost;

@@ -15,6 +15,7 @@ import CreatePost from "./components/createPost";
 import GetDraft from "./components/getDraft";
 import Home from "./components/home";
 import GetDrafts from "./components/getDrafts";
+import EditPost from "./components/editPost";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
@@ -50,7 +51,7 @@ function AuthStatus() {
       </li>
     );
   } else {
-    return <Link to="/login">Log In</Link>;
+    return <Link to="/adminlogin">Log In</Link>;
   }
 }
 
@@ -70,13 +71,12 @@ function App() {
             <li>
               <Link to="/posts/drafts">Drafts</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/adminlogin">Admin login</Link>
-            </li>
+            </li> */}
             <AuthStatus />
           </ul>
         </nav>
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<GetPosts />} />
@@ -88,6 +88,8 @@ function App() {
           <Route path="/adminlogin" element={<AdminLogin />} />
 
           <Route path="/posts/:postId" element={<GetPost />} />
+          <Route path="/posts/:postId/edit" element={<EditPost />} />
+
           {/* You can add more routes as needed */}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />

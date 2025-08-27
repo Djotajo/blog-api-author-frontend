@@ -6,6 +6,7 @@ import EditComment from "./editComment";
 import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
+import { Link } from "react-router-dom";
 
 function GetPost() {
   const [post, setPost] = useState(null);
@@ -17,11 +18,10 @@ function GetPost() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
       const responseJson = await response.json();
       setPost(responseJson);
-      console.log(post);
     }
 
     fetchPostData();
-  }, []);
+  }, [postId]);
 
   const paragraphs = useMemo(() => {
     return post?.text ? post.text.split("\n\n") : [];
@@ -30,7 +30,7 @@ function GetPost() {
   if (!post) {
     return <div className="post">Loading or Post not found...</div>;
   }
-  console.log(post);
+
   return (
     <>
       <div className="full-post">
@@ -44,9 +44,9 @@ function GetPost() {
           <p>
             {post.author.username} on {FormatPostDate(post.createdAt)}
           </p>
-          {currentUser && post.authorId === currentUser.id ? (
+          {currentUser && post.author.id === currentUser.id ? (
             <>
-              {/* <EditComment commentObject={comment} key={comment.id} /> */}
+              <Link to={`/posts/${post.id}/edit`}>Edit</Link>
               <DeletePost postObject={post} />
             </>
           ) : (

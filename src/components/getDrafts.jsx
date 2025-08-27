@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function GetDrafts({ authorId = undefined }) {
   const [posts, setPosts] = useState([]);
+  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
   useEffect(() => {
     async function fetchPostData() {
+      if (!currentUser || !currentUser.isAuthenticated) {
+        return <p>You are not logged in.</p>;
+      }
       const url = authorId
         ? `http://localhost:3000/posts/drafts/${authorId}`
         : `http://localhost:3000/posts/drafts/`;
@@ -19,7 +24,13 @@ function GetDrafts({ authorId = undefined }) {
     }
 
     fetchPostData();
-  }, []);
+  }, [authorId, currentUser]);
+
+  if (loadingInitial) {
+    return <p>Loading user information...</p>;
+  }
+
+  // Check if there is a logged-in user
 
   return (
     <>
