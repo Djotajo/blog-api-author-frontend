@@ -47,7 +47,7 @@ function GetPost() {
           {currentUser && post.author.id === currentUser.id ? (
             <>
               <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-              <DeletePost postObject={post} />
+              <DeletePost />
             </>
           ) : (
             `Log in user to edit`
@@ -79,26 +79,19 @@ function GetPost() {
               </header>
               <p className="comment-content">{comment.text}</p>
               {/* provjeriti */}
-              {comment.commentByUser ? (
-                currentUser && comment.commentByUser.id === currentUser.id ? (
-                  <>
-                    <EditComment commentObject={comment} key={comment.id} />
-                    <DeleteComment commentObject={comment} />
-                  </>
-                ) : (
-                  `Log in user to edit`
-                )
-              ) : currentUser &&
-                comment.commentByAuthor.id === currentUser.id ? (
-                <EditComment commentObject={comment} />
+
+              {comment.commentByAuthor ? (
+                // currentUser && comment.commentByUser.id === currentUser.id ?
+                <>
+                  <EditComment commentObject={comment} key={comment.id} />
+                  <DeleteComment commentObject={comment} />
+                </>
               ) : (
-                "Log in to edit"
+                // : (
+                //   `Log in user to edit`
+                // )
+                <DeleteComment commentObject={comment} />
               )}
-              {/* {currentUser && comment.commentByUser.id === currentUser.id ? (
-                <EditComment commentObject={comment} />
-              ) : (
-                "Log in to edit"
-              )} */}
             </article>
           ))}
         </section>

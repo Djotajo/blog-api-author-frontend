@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function DeletePost({ postObject }) {
+function DeletePost() {
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ function DeletePost({ postObject }) {
       // 4. Get the response from the API (e.g., the new comment object)
       const deletedPost = await response.json();
       console.log("Post deleted successfully:", deletedPost);
+      navigate(`/`);
     } catch (error) {
       console.error("Error deleting post:", error);
     }

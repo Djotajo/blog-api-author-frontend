@@ -66,11 +66,7 @@ function GetPosts({ authorId = undefined }) {
                 <div className="post-footer">
                   {" "}
                   <span>
-                    {post.authorId} on {FormatPostDate(post.createdAt)}
-                  </span>
-                  <span className="post-comment">
-                    <i className="material-icons">comment</i>{" "}
-                    {/* {post.Comment.length} */}
+                    {post.author.username} on {FormatPostDate(post.createdAt)}
                   </span>
                 </div>
               </article>

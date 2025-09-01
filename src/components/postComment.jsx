@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 // import { v4 as uuidv4 } from "uuid";
 
 function PostComment() {
@@ -12,6 +14,8 @@ function PostComment() {
 
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
+  const navigate = useNavigate();
+
   // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
     return <p>Loading user information...</p>;
@@ -22,14 +26,13 @@ function PostComment() {
     return <p>You are not logged in.</p>;
   }
 
-  console.log(currentUser.id);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const commentData = {
       text: comment,
-      // authorId: "prvi",
-      userId: currentUser.id,
+      authorId: currentUser.id,
+      // userId: currentUser.id,
       parentId: postId,
       // userId: null,
     };
@@ -56,6 +59,8 @@ function PostComment() {
       console.log("Comment added successfully:", newComment);
 
       setComment("");
+      navigate(0);
+
       // Call a function from props to add the new comment to the list
       //   if (onCommentSubmitted) {
       //     onCommentSubmitted(newComment);
