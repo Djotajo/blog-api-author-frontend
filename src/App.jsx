@@ -1,5 +1,3 @@
-import { useState } from "react";
-import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import "./App.css";
@@ -8,8 +6,7 @@ import GetPosts from "./components/getPosts";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import GetPost from "./components/getPost";
-import LogIn from "./components/login";
-import AdminLogin from "./components/adminLogin";
+import Login from "./components/login";
 import SignUp from "./components/signup";
 import CreatePost from "./components/createPost";
 import GetDraft from "./components/getDraft";
@@ -20,16 +17,12 @@ import EditPost from "./components/editPost";
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
 
-  // If still checking for a token, return null or a simple loading indicator
   if (loadingInitial) {
     return null; // Or <span>Loading session...</span>;
   }
 
-  // Only render if the user is authenticated
   if (currentUser && currentUser.isAuthenticated) {
     return (
-      // You can put this anywhere in your nav, e.g., in a separate li or directly.
-      // I'll keep it as a li for consistency with nav-links.
       <li className="nav-item">
         <p style={{ margin: 0, color: "white", display: "inline-block" }}>
           Welcome, <strong>{currentUser.username}</strong>!{" "}
@@ -51,55 +44,124 @@ function AuthStatus() {
       </li>
     );
   } else {
-    return <Link to="/adminlogin">Log In</Link>;
+    return <Link to="/login">Log In</Link>;
   }
 }
+
+// function App() {
+//   const { currentUser, loadingInitial } = useAuth();
+//   if (loadingInitial) {
+//     return null; // Or <span>Loading session...</span>;
+//   }
+
+//   if (currentUser && currentUser.isAuthenticated) {
+//     return (
+//       <AuthProvider>
+//         <Router>
+//           <nav>
+//             <h1>Random Blog Websites</h1>
+//             <ul className="nav-links">
+//               <li>
+//                 <Link to="/">Home</Link>
+//               </li>
+//               <li>
+//                 <Link to="/newPost">New Post</Link>
+//               </li>
+//               {currentUser && (
+//                 <li>
+//                   <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
+//                 </li>
+//               )}
+//               <AuthStatus />
+//             </ul>
+//           </nav>
+//           <Routes>
+//             <Route path="/" element={<Home />} />
+//             <Route path="/posts" element={<GetPosts />} />
+//             <Route
+//               path="/posts/drafts/:authorId"
+//               element={<GetPosts showPublished={false} />}
+//             />
+//             <Route path="/posts/drafts/:postId" element={<GetDraft />} />
+
+//             <Route path="/items" element={<GetPosts />} />
+//             <Route path="/newPost" element={<CreatePost />} />
+//             <Route path="/login" element={<Login />} />
+
+//             <Route path="/posts/:postId" element={<GetPost />} />
+//             <Route path="/posts/:postId/edit" element={<EditPost />} />
+
+{
+  /* You can add more routes as needed */
+}
+//             <Route path="/signup" element={<SignUp />} />
+//           </Routes>
+
+//           <footer>
+//             <p>Made by Djotajo</p>
+//           </footer>
+//         </Router>
+//       </AuthProvider>
+//     );
+//   }
+// }
+
+// export default App;
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <nav>
-          <h1>Random Blog Websites</h1>
-          <ul className="nav-links">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/newPost">New Post</Link>
-            </li>
-            <li>
-              <Link to="/posts/drafts">Drafts</Link>
-            </li>
-            {/* <li>
-              <Link to="/adminlogin">Admin login</Link>
-            </li> */}
-            <AuthStatus />
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts" element={<GetPosts />} />
-          <Route path="/posts/drafts" element={<GetDrafts />} />
-          <Route path="/posts/drafts/:postId" element={<GetDraft />} />
-
-          <Route path="/items" element={<GetPosts />} />
-          <Route path="/newPost" element={<CreatePost />} />
-          <Route path="/adminlogin" element={<AdminLogin />} />
-
-          <Route path="/posts/:postId" element={<GetPost />} />
-          <Route path="/posts/:postId/edit" element={<EditPost />} />
-
-          {/* You can add more routes as needed */}
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-        </Routes>
-
-        <footer>
-          <p>Made by Djotajo</p>
-        </footer>
+        <AppContent />
       </Router>
     </AuthProvider>
+  );
+}
+
+function AppContent() {
+  const { currentUser, loadingInitial } = useAuth();
+
+  if (loadingInitial) return null;
+
+  return (
+    <>
+      <nav>
+        <h1>Random Blog Website</h1>
+        <ul className="nav-links">
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/newPost">New Post</Link>
+          </li>
+          {currentUser && (
+            <li>
+              <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
+            </li>
+          )}
+          <AuthStatus />
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/posts" element={<GetPosts />} />
+        <Route
+          path="/posts/drafts/:authorId"
+          element={<GetPosts authorId={currentUser.id} showPublished={false} />}
+        />
+        <Route path="/posts/drafts/:postId" element={<GetDraft />} />
+        <Route path="/newPost" element={<CreatePost />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/posts/:postId" element={<GetPost />} />
+        <Route path="/posts/:postId/edit" element={<EditPost />} />
+      </Routes>
+
+      <footer>
+        <p>Made by Djotajo</p>
+      </footer>
+    </>
   );
 }
 

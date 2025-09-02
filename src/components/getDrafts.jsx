@@ -20,7 +20,6 @@ function GetDrafts({ authorId = undefined }) {
 
       const responseJson = await response.json();
       setPosts(responseJson);
-      console.log(posts);
     }
 
     fetchPostData();

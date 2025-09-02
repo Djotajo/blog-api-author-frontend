@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
 
-function LogIn() {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(""); // State to hold login error messages
@@ -156,4 +156,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default Login;

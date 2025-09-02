@@ -12,23 +12,20 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        // Check for token expiration
         const currentTime = Date.now() / 1000; // Convert to seconds
         if (decoded.exp > currentTime) {
-          // Token is valid and not expired
           setCurrentUser({
             username: decoded.username,
             id: decoded.id,
             isAuthenticated: true,
+            role: decoded.role,
           });
         } else {
-          // Token expired, remove it from localStorage
           console.log("JWT Token expired.");
           localStorage.removeItem("jwt_token");
           setCurrentUser(null);
         }
       } catch (error) {
-        // Token is invalid (e.g., malformed, signature mismatch)
         console.error(
           "Error decoding or verifying JWT token from localStorage:",
           error
@@ -40,28 +37,21 @@ export const AuthProvider = ({ children }) => {
     setLoadingInitial(false); // Finished initial check
   }, []);
 
-  // const login = (username, id) => {
-  //   setCurrentUser({ username, id, isAuthenticated: true });
-  // };
-
   const login = (token) => {
-    // Now accepts the token
-    // Save the token to localStorage
     localStorage.setItem("jwt_token", token);
 
-    // Decode the token to get the user info
     const decoded = jwtDecode(token);
 
-    // Set the user state with data from the decoded token
     setCurrentUser({
       username: decoded.username,
       id: decoded.id,
       isAuthenticated: true,
+      role: decoded.role,
     });
   };
   const logout = () => {
-    localStorage.removeItem("jwt_token"); // Remove token from localStorage
-    setCurrentUser(null); // Clear user from state
+    localStorage.removeItem("jwt_token");
+    setCurrentUser(null);
     console.log("Logged out. Token removed from localStorage.");
   };
 
@@ -69,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     login,
     logout,
-    loadingInitial, // Provide loading status to prevent flickering
+    loadingInitial,
   };
 
   return (
