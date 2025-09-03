@@ -42,6 +42,11 @@ export const AuthProvider = ({ children }) => {
 
     const decoded = jwtDecode(token);
 
+    if (decoded.role !== "author") {
+      alert("Access denied: You are not an author.");
+      return;
+    }
+
     setCurrentUser({
       username: decoded.username,
       id: decoded.id,

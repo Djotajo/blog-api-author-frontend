@@ -49,61 +49,49 @@ function AuthStatus() {
 }
 
 // function App() {
-//   const { currentUser, loadingInitial } = useAuth();
-//   if (loadingInitial) {
-//     return null; // Or <span>Loading session...</span>;
-//   }
+//   return (
+//     <AuthProvider>
+//       <Router>
+//         <nav>
+//           <h1>Random Blog Websites</h1>
+//           <ul className="nav-links">
+//             <li>
+//               <Link to="/">Home</Link>
+//             </li>
+//             <li>
+//               <Link to="/newPost">New Post</Link>
+//             </li>
+//             <li>
+//               <Link to={`/posts/drafts/`}>Drafts</Link>
+//             </li>
+//             <AuthStatus />
+//           </ul>
+//         </nav>
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="/posts" element={<GetPosts />} />
+//           <Route
+//             path="/posts/drafts/:authorId"
+//             element={<GetPosts showPublished={false} />}
+//           />
+//           <Route path="/posts/drafts/:postId" element={<GetDraft />} />
 
-//   if (currentUser && currentUser.isAuthenticated) {
-//     return (
-//       <AuthProvider>
-//         <Router>
-//           <nav>
-//             <h1>Random Blog Websites</h1>
-//             <ul className="nav-links">
-//               <li>
-//                 <Link to="/">Home</Link>
-//               </li>
-//               <li>
-//                 <Link to="/newPost">New Post</Link>
-//               </li>
-//               {currentUser && (
-//                 <li>
-//                   <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
-//                 </li>
-//               )}
-//               <AuthStatus />
-//             </ul>
-//           </nav>
-//           <Routes>
-//             <Route path="/" element={<Home />} />
-//             <Route path="/posts" element={<GetPosts />} />
-//             <Route
-//               path="/posts/drafts/:authorId"
-//               element={<GetPosts showPublished={false} />}
-//             />
-//             <Route path="/posts/drafts/:postId" element={<GetDraft />} />
+//           <Route path="/items" element={<GetPosts />} />
+//           <Route path="/newPost" element={<CreatePost />} />
+//           <Route path="/login" element={<Login />} />
 
-//             <Route path="/items" element={<GetPosts />} />
-//             <Route path="/newPost" element={<CreatePost />} />
-//             <Route path="/login" element={<Login />} />
+//           <Route path="/posts/:postId" element={<GetPost />} />
+//           <Route path="/posts/:postId/edit" element={<EditPost />} />
 
-//             <Route path="/posts/:postId" element={<GetPost />} />
-//             <Route path="/posts/:postId/edit" element={<EditPost />} />
+//           <Route path="/signup" element={<SignUp />} />
+//         </Routes>
 
-{
-  /* You can add more routes as needed */
-}
-//             <Route path="/signup" element={<SignUp />} />
-//           </Routes>
-
-//           <footer>
-//             <p>Made by Djotajo</p>
-//           </footer>
-//         </Router>
-//       </AuthProvider>
-//     );
-//   }
+//         <footer>
+//           <p>Made by Djotajo</p>
+//         </footer>
+//       </Router>
+//     </AuthProvider>
+//   );
 // }
 
 // export default App;
@@ -120,7 +108,7 @@ function App() {
 
 function AppContent() {
   const { currentUser, loadingInitial } = useAuth();
-
+  console.log(currentUser);
   if (loadingInitial) return null;
 
   return (
@@ -131,13 +119,16 @@ function AppContent() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/newPost">New Post</Link>
-          </li>
-          {currentUser && (
-            <li>
-              <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
-            </li>
+
+          {currentUser && currentUser.isAuthenticated && (
+            <>
+              <li>
+                <Link to="/newPost">New Post</Link>
+              </li>
+              <li>
+                <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
+              </li>
+            </>
           )}
           <AuthStatus />
         </ul>
@@ -146,16 +137,22 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<GetPosts />} />
-        <Route
-          path="/posts/drafts/:authorId"
-          element={<GetPosts authorId={currentUser.id} showPublished={false} />}
-        />
-        <Route path="/posts/drafts/:postId" element={<GetDraft />} />
-        <Route path="/newPost" element={<CreatePost />} />
+        {currentUser && currentUser.isAuthenticated && (
+          <>
+            <Route
+              path="/posts/drafts/:authorId"
+              element={
+                <GetPosts authorId={currentUser.id} showPublished={false} />
+              }
+            />
+            <Route path="/newPost" element={<CreatePost />} />
+            <Route path="/posts/:postId" element={<GetPost />} />
+            <Route path="/posts/:postId/edit" element={<EditPost />} />
+            <Route path="/posts/drafts/:postId" element={<GetDraft />} />
+          </>
+        )}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/posts/:postId" element={<GetPost />} />
-        <Route path="/posts/:postId/edit" element={<EditPost />} />
       </Routes>
 
       <footer>

@@ -65,6 +65,31 @@ body {
   padding-left: 0;
 }
 
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2em;
+  padding: 2em;
+  padding-top: 10vh;
+}
+
+.dashboard-item img {
+  width: 100%; /* Makes image responsive inside the item */
+  /* max-width: 200px; */
+  height: auto; /* Maintains aspect ratio */
+  object-fit: cover;
+  display: block;
+  /* margin: 1em; */
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 400px;
+}
+
+.dashboard-item img:hover {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
 .posts-list-item {
   display: flex;
 }
