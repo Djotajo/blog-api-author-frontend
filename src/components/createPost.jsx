@@ -109,7 +109,7 @@ function CreatePost() {
   //   }
 
   return (
-    <>
+    <div className="new-post-fullscreen">
       <form onSubmit={handlePublish} className="post-form">
         <fieldset>
           <div>
@@ -131,6 +131,7 @@ function CreatePost() {
               required
               autoFocus
               aria-required="true"
+              rows={25}
             ></textarea>
           </div>
           <button type="submit">Publish</button>
@@ -143,7 +144,7 @@ function CreatePost() {
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </fieldset>
       </form>
-    </>
+    </div>
   );
 }
 

@@ -107,7 +107,7 @@ function Login() {
   };
 
   return (
-    <>
+    <div className="login-fullscreen">
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Log In</h2>
         {loginError && <p style={{ color: "red" }}>{loginError}</p>}
@@ -125,6 +125,7 @@ function Login() {
         <label htmlFor="password">Password</label>
         <input
           id="password"
+          placeholder="password"
           name="password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -134,6 +135,10 @@ function Login() {
         <button type="submit">Log In</button>
       </form>
       <a href="/signup">No Account? Sign Up</a>
+      {/* ubaciti link za user site */}
+      <a href="/userSite">
+        Not an author? Check out the regular user site here
+      </a>
 
       {tokenReceived && (
         <div
@@ -152,7 +157,7 @@ function Login() {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

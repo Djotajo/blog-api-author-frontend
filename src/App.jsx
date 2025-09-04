@@ -116,24 +116,23 @@ function AppContent() {
       <nav>
         <h1>Random Blog Website</h1>
         <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-
           {currentUser && currentUser.isAuthenticated && (
             <>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+
               <li>
                 <Link to="/newPost">New Post</Link>
               </li>
               <li>
                 <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
               </li>
+              <AuthStatus />
             </>
           )}
-          <AuthStatus />
         </ul>
       </nav>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<GetPosts />} />
@@ -154,7 +153,6 @@ function AppContent() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
-
       <footer>
         <p>Made by Djotajo</p>
       </footer>

@@ -65,24 +65,38 @@ body {
   padding-left: 0;
 }
 
+/* .home-div {
+  height: 70vh;
+} */
+
 .dashboard {
+  width: 100%;
+  height: calc(100vh - 5vh);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2em;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2em;
+  row-gap: 1em;
   padding: 2em;
-  padding-top: 10vh;
+  padding-top: 15vh;
+}
+
+.login-fullscreen {
+}
+
+.dashboard-item {
+  width: 100%;
+  height: 35vh;
+  max-height: 35vh;
 }
 
 .dashboard-item img {
   width: 100%; /* Makes image responsive inside the item */
   /* max-width: 200px; */
-  height: auto; /* Maintains aspect ratio */
   object-fit: cover;
   display: block;
   /* margin: 1em; */
-  border: 1px solid black;
-  border-radius: 10px;
-  height: 400px;
+  aspect-ratio: 1/1;
+  height: 100%;
 }
 
 .dashboard-item img:hover {
@@ -156,7 +170,6 @@ body {
   justify-content: space-between;
   align-items: stretch;
   margin: auto;
-  margin-top: 5em;
 }
 
 .post-form div {
@@ -276,7 +289,7 @@ footer {
   left: 0;
   right: 0;
   margin: auto;
-  margin-top: 10em;
+  /* margin-top: 10em; */
 }
 
 @media (max-width: 768px) {
@@ -292,9 +305,58 @@ footer {
   }
 }
 
+/* .login-form, */
+/* .new-member-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+} */
+
 .login-form,
 .new-member-form {
   display: flex;
   flex-direction: column;
-  margin-top: 15vh;
+  justify-content: center;
+  gap: 1em;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* height: calc(100vh - 5vh); */
+}
+
+.login-fullscreen {
+  height: calc(100vh - 5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1em;
+}
+
+.signup-fullscreen {
+  height: calc(100vh - 5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1em;
+}
+
+.new-post-fullscreen {
+  height: calc(100vh - 5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1em;
+  padding-top: 10vh;
 }
