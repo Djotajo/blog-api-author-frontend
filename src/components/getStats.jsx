@@ -20,8 +20,14 @@ function GetStats() {
 
   useEffect(() => {
     async function fetchPostData() {
-      const url = `http://localhost:3000/posts/${authorId}`;
-      const response = await fetch(url);
+      const token = localStorage.getItem("jwt_token");
+
+      const url = `http://localhost:3000/dashboard/posts`;
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const responseJson = await response.json();
       console.log("stats");
       console.log(responseJson);

@@ -14,14 +14,11 @@ function Home() {
         currentUser.isAuthenticated &&
         currentUser.role === "author" && (
           <div className="dashboard">
-            <Link to="/posts" className="dashboard-item">
+            <Link to="/dashboard/posts" className="dashboard-item">
               <img src="/public/see-posts.png" alt="View all posts" />
             </Link>
-            <Link
-              to={`/posts/drafts/${currentUser.id}`}
-              className="dashboard-item"
-            >
-              <img src="/public/see-drafts.png" alt="View all posts" />
+            <Link to={`/dashboard/drafts`} className="dashboard-item">
+              <img src="/public/see-drafts.png" alt="View all drafts" />
             </Link>
             <Link to="/newPost" className="dashboard-item">
               <img src="/public/add-post.png" alt="View all posts" />

@@ -40,7 +40,7 @@ function CreatePost() {
     console.log(postData);
 
     try {
-      const apiEndpoint = `http://localhost:3000/posts`;
+      const apiEndpoint = `http://localhost:3000/dashboard/posts`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",
@@ -58,7 +58,7 @@ function CreatePost() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
-      navigate(`/posts/`);
+      navigate(`/dashboard/posts/`);
     } catch (error) {
       console.error("Error creating post:", error);
     }

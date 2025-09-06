@@ -14,14 +14,22 @@ function GetPosts({
 
   useEffect(() => {
     async function fetchPostData() {
-      const url = authorId
-        ? `http://localhost:3000/posts/drafts/${authorId}`
-        : `http://localhost:3000/posts/`;
-      const response = await fetch(url);
-      const responseJson = await response.json();
-      console.log("ovdje isto ok");
-      console.log(responseJson);
-      setPosts(responseJson);
+      const token = localStorage.getItem("jwt_token");
+      const res = await fetch("http://localhost:3000/dashboard/posts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const posts = await res.json();
+
+      // const url = authorId
+      //   ? `http://localhost:3000/posts/drafts/${authorId}`
+      //   : `http://localhost:3000/posts/`;
+      // const response = await fetch(url);
+      // const responseJson = await response.json();
+      // console.log("ovdje isto ok");
+      // console.log(responseJson);
+      setPosts(posts);
     }
 
     fetchPostData();

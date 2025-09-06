@@ -13,7 +13,6 @@ import GetDraft from "./components/getDraft";
 import Home from "./components/home";
 import GetDrafts from "./components/getDrafts";
 import EditPost from "./components/editPost";
-import GetStats from "./components/getStats";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
@@ -139,11 +138,11 @@ function AppContent() {
         {currentUser && currentUser.isAuthenticated && (
           <>
             <Route
-              path="/posts/drafts/:authorId"
+              path="/dashboard/drafts"
               element={<GetPosts authorId={currentUser.id} showDrafts={true} />}
             />
             <Route
-              path="/posts"
+              path="/dashboard/posts"
               element={<GetPosts authorId={currentUser.id} showPosts={true} />}
             />
 
