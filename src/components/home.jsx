@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./login";
+import GetStats from "./getStats";
 
 function Home() {
   const { currentUser, loadingInitial } = useAuth();
@@ -31,9 +32,7 @@ function Home() {
             <Link to="/posts" className="dashboard-item">
               <img src="/public/see-posts.png" alt="View all posts" />
             </Link>
-            <Link to="/posts" className="dashboard-item">
-              <img src="/public/see-posts.png" alt="View all posts" />
-            </Link>
+            <GetStats />
           </div>
         )}
     </>

@@ -58,6 +58,7 @@ function CreatePost() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
+      navigate(`/posts/`);
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -98,7 +99,7 @@ function CreatePost() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
-      navigate(`/posts/drafts`);
+      navigate(`/posts/drafts/${currentUser.id}`);
     } catch (error) {
       console.error("Error creating post:", error);
     }

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
 
-function GetPosts({ authorId = undefined, showPublished = true }) {
+function GetPosts({
+  authorId = undefined,
+  showPosts = false,
+  showDrafts = false,
+}) {
   const [posts, setPosts] = useState([]);
 
   const publishedPosts = posts.filter((post) => post.published);
@@ -25,29 +29,33 @@ function GetPosts({ authorId = undefined, showPublished = true }) {
 
   return (
     <>
-      <div className="posts">
-        <h1>Your Drafts</h1>
-        <ul>
-          {draftPosts.map((post) => (
-            <li key={post.id} className="posts-list-item">
-              {" "}
-              <article className="post">
-                <h2>
-                  <Link to={`/posts/drafts/${post.id}`}>{post.title}</Link>
-                </h2>{" "}
-                <p className="post-text">{post.text}</p>
-                <div className="post-footer">
-                  {" "}
-                  <span>
-                    {post.author.username} on {FormatPostDate(post.createdAt)}
-                  </span>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {showPublished && (
+      {showDrafts && (
+        <div className="posts">
+          <h1>Your Drafts</h1>
+          <ul>
+            {draftPosts.map((post) => (
+              <li key={post.id} className="posts-list-item">
+                {" "}
+                <article className="post">
+                  <h2>
+                    <Link to={`/posts/drafts/${authorId}/${post.id}`}>
+                      {post.title}
+                    </Link>
+                  </h2>{" "}
+                  <p className="post-text">{post.text}</p>
+                  <div className="post-footer">
+                    {" "}
+                    <span>
+                      {post.author.username} on {FormatPostDate(post.createdAt)}
+                    </span>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {showPosts && (
         <div className="posts">
           <h1>Your Posts</h1>
           <ul>

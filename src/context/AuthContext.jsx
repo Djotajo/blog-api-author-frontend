@@ -43,7 +43,9 @@ export const AuthProvider = ({ children }) => {
     const decoded = jwtDecode(token);
 
     if (decoded.role !== "author") {
-      alert("Access denied: You are not an author.");
+      alert(
+        "Access denied: You are not an author, switch to regular user website."
+      );
       return;
     }
 

@@ -38,7 +38,11 @@ function SignUp() {
 
   return (
     <div className="login-fullscreen">
-      <form onSubmit={handleSubmit} className="new-member-form">
+      <h3>
+        Unfortunately, creating a new author account is not available at this
+        time.
+      </h3>
+      {/* <form onSubmit={handleSubmit} className="new-member-form">
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -73,8 +77,9 @@ function SignUp() {
         />
 
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
       <a href="./login">Already have an account? Sign in here</a>
+      <a href="/userSite">Check out the regular user site here</a>
     </div>
   );
 }

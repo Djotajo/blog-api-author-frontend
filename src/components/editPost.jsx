@@ -72,41 +72,44 @@ function EditPost() {
 
   return (
     <>
-      <form onSubmit={handleSaveEdit} className="post-form">
-        <fieldset>
-          <div>
-            <label htmlFor="postTitle">Title: </label>
-            <input
-              type="text"
-              id="postTitle"
-              name="postTitle"
-              value={postTitle}
-              onChange={(e) => setPostTitle(e.target.value)}
-              required
-              autoFocus
-              aria-required="true"
-            />
-            <label htmlFor="post">Post: </label>
-            <textarea
-              id="postText"
-              name="postText"
-              value={postText}
-              onChange={(e) => setPostText(e.target.value)}
-              required
-              autoFocus
-              aria-required="true"
-            ></textarea>
-          </div>
-          <button type="submit">Save changes</button>
-          {/* <button onClick={handleSaveDraft} type="button">
+      <div className="edit-draft-fullscreen">
+        <form onSubmit={handleSaveEdit} className="post-form">
+          <fieldset>
+            <div>
+              <label htmlFor="postTitle">Title: </label>
+              <input
+                type="text"
+                id="postTitle"
+                name="postTitle"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
+                required
+                autoFocus
+                aria-required="true"
+              />
+              <label htmlFor="post">Post: </label>
+              <textarea
+                id="postText"
+                name="postText"
+                value={postText}
+                onChange={(e) => setPostText(e.target.value)}
+                required
+                autoFocus
+                aria-required="true"
+                rows={25}
+              ></textarea>
+            </div>
+            <button type="submit">Save changes</button>
+            {/* <button onClick={handleSaveDraft} type="button">
             Unpublish post
           </button> */}
-          <button>Cancel</button>
-          {/* onClick={handleCancelSubmit} */}
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        </fieldset>
-      </form>
-      <DeletePost postObject={post} />
+            <button>Cancel</button>
+            {/* onClick={handleCancelSubmit} */}
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          </fieldset>
+        </form>
+        <DeletePost postObject={post} />
+      </div>
     </>
   );
 }

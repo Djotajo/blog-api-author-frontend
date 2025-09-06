@@ -360,3 +360,78 @@ footer {
   gap: 1em;
   padding-top: 10vh;
 }
+
+.edit-draft-fullscreen {
+  height: calc(100vh - 5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1em;
+  padding-top: 10vh;
+}
+
+/* CHART */
+
+div.dashboard-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border: 1px solid black;
+  font-size: 1.5em;
+  height: 100%;
+  width: 100%;
+}
+
+.mini-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+  background: #f5f5f5;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bar-group {
+  display: flex;
+  height: 100%;
+
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 100%;
+  /* background: #4caf50; */
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  justify-content: flex-start;
+}
+
+.bar:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.bar-group span {
+  margin-top: 0.5em;
+  /* font-size: 0.9rem; */
+  color: #333;
+}
+
+.drafts-bar {
+  background-color: orange;
+}
+
+.posts-bar {
+  background-color: green;
+}

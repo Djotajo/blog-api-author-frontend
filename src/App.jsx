@@ -13,6 +13,7 @@ import GetDraft from "./components/getDraft";
 import Home from "./components/home";
 import GetDrafts from "./components/getDrafts";
 import EditPost from "./components/editPost";
+import GetStats from "./components/getStats";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
@@ -135,19 +136,24 @@ function AppContent() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/posts" element={<GetPosts />} />
         {currentUser && currentUser.isAuthenticated && (
           <>
             <Route
               path="/posts/drafts/:authorId"
-              element={
-                <GetPosts authorId={currentUser.id} showPublished={false} />
-              }
+              element={<GetPosts authorId={currentUser.id} showDrafts={true} />}
             />
+            <Route
+              path="/posts"
+              element={<GetPosts authorId={currentUser.id} showPosts={true} />}
+            />
+
             <Route path="/newPost" element={<CreatePost />} />
             <Route path="/posts/:postId" element={<GetPost />} />
             <Route path="/posts/:postId/edit" element={<EditPost />} />
-            <Route path="/posts/drafts/:postId" element={<GetDraft />} />
+            <Route
+              path="/posts/drafts/:authorId/:postId"
+              element={<GetDraft />}
+            />
           </>
         )}
         <Route path="/login" element={<Login />} />

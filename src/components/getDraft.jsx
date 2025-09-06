@@ -45,7 +45,7 @@ function GetDraft() {
     console.log(postData);
 
     try {
-      const apiEndpoint = `http://localhost:3000/posts`;
+      const apiEndpoint = `http://localhost:3000/posts/drafts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "PUT",
@@ -63,6 +63,7 @@ function GetDraft() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
+      navigate(`/posts/`);
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -101,9 +102,9 @@ function GetDraft() {
 
       const newPost = await response.json();
       console.log("Draft saved successfully:", newPost);
-      navigate(`/posts/drafts`);
 
       setPost("");
+      navigate(`/posts/drafts/${currentUser.id}`);
     } catch (error) {
       console.error("Error saving draft:", error);
     }
@@ -111,40 +112,43 @@ function GetDraft() {
 
   return (
     <>
-      <form onSubmit={handlePublish} className="post-form">
-        <fieldset>
-          <div>
-            <label htmlFor="postTitle">Title: </label>
-            <input
-              type="text"
-              id="postTitle"
-              name="postTitle"
-              value={postTitle}
-              onChange={(e) => setPostTitle(e.target.value)}
-              required
-              autoFocus
-              aria-required="true"
-            />
-            <label htmlFor="post">Post: </label>
-            <textarea
-              id="postText"
-              name="postText"
-              value={postText}
-              onChange={(e) => setPostText(e.target.value)}
-              required
-              autoFocus
-              aria-required="true"
-            ></textarea>
-          </div>
-          <button type="submit">Publish</button>
-          <button onClick={handleSaveDraft} type="button">
-            Save as draft
-          </button>
-          <button>Cancel</button>
-          {/* onClick={handleCancelSubmit} */}
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        </fieldset>
-      </form>
+      <div className="edit-draft-fullscreen">
+        <form onSubmit={handlePublish} className="post-form">
+          <fieldset>
+            <div>
+              <label htmlFor="postTitle">Title: </label>
+              <input
+                type="text"
+                id="postTitle"
+                name="postTitle"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
+                required
+                autoFocus
+                aria-required="true"
+              />
+              <label htmlFor="post">Post: </label>
+              <textarea
+                id="postText"
+                name="postText"
+                value={postText}
+                onChange={(e) => setPostText(e.target.value)}
+                required
+                autoFocus
+                aria-required="true"
+                rows={25}
+              ></textarea>
+            </div>
+            <button type="submit">Publish</button>
+            <button onClick={handleSaveDraft} type="button">
+              Save as draft
+            </button>
+            <button>Cancel</button>
+            {/* onClick={handleCancelSubmit} */}
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          </fieldset>
+        </form>
+      </div>
       <DeletePost postObject={post} />
     </>
   );
