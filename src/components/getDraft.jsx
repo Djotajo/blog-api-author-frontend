@@ -12,6 +12,7 @@ function GetDraft() {
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwt_token");
 
   useEffect(() => {
     async function fetchPostData() {
@@ -36,24 +37,27 @@ function GetDraft() {
       id: postId,
       title: postTitle,
       text: postText,
-      //   authorId je samo test, treba staviti userId
-      authorId: currentUser.id,
       published: true,
-      //   userId: currentUser.id,
     };
 
-    console.log(postData);
-
     try {
-      const apiEndpoint = `http://localhost:3000/posts/drafts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/dashboard/drafts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postData),
       });
+
+      if (response.status === 409) {
+        // Title already exists
+        const data = await response.json();
+        setErrorMessage(data.message); // Set this in your local state
+        return;
+      }
 
       if (!response.ok) {
         throw new Error("Failed to create post");
@@ -63,7 +67,7 @@ function GetDraft() {
       console.log("Post created successfully:", newPost);
 
       setPost("");
-      navigate(`/posts/`);
+      navigate(`/dashboard/posts/`);
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -76,25 +80,27 @@ function GetDraft() {
       id: postId,
       title: postTitle,
       text: postText,
-      //   authorId je samo test, treba staviti userId
-      authorId: currentUser.id,
       published: false,
-
-      //   userId: currentUser.id,
     };
 
-    console.log(postData);
-
     try {
-      const apiEndpoint = `http://localhost:3000/posts/drafts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/dashboard/drafts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postData),
       });
+
+      if (response.status === 409) {
+        // Title already exists
+        const data = await response.json();
+        setErrorMessage(data.message);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error("Failed to save draft");
@@ -104,7 +110,7 @@ function GetDraft() {
       console.log("Draft saved successfully:", newPost);
 
       setPost("");
-      navigate(`/posts/drafts/${currentUser.id}`);
+      navigate(`/dashboard/drafts`);
     } catch (error) {
       console.error("Error saving draft:", error);
     }

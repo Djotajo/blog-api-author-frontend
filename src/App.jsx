@@ -126,7 +126,7 @@ function AppContent() {
                 <Link to="/newPost">New Post</Link>
               </li>
               <li>
-                <Link to={`/posts/drafts/${currentUser.id}`}>Drafts</Link>
+                <Link to={`/dashboard/drafts/`}>Drafts</Link>
               </li>
               <AuthStatus />
             </>
@@ -145,10 +145,14 @@ function AppContent() {
               path="/dashboard/posts"
               element={<GetPosts authorId={currentUser.id} showPosts={true} />}
             />
+            <Route
+              path="/dashboard/posts/:postId/edit"
+              element={<EditPost />}
+            />
 
             <Route path="/newPost" element={<CreatePost />} />
-            <Route path="/posts/:postId" element={<GetPost />} />
-            <Route path="/posts/:postId/edit" element={<EditPost />} />
+            <Route path="/dashboard/posts/:postId" element={<GetPost />} />
+
             <Route
               path="/posts/drafts/:authorId/:postId"
               element={<GetDraft />}

@@ -12,7 +12,6 @@ function GetPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
-  console.log(post);
   useEffect(() => {
     async function fetchPostData() {
       const response = await fetch(`http://localhost:3000/posts/${postId}`);
@@ -46,7 +45,7 @@ function GetPost() {
           </p>
           {currentUser && post.author.id === currentUser.id ? (
             <>
-              <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+              <Link to={`/dashboard/posts/${post.id}/edit`}>Edit</Link>
               <DeletePost />
             </>
           ) : (

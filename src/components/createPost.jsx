@@ -9,6 +9,7 @@ function CreatePost() {
   const [post, setPost] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwt_token");
 
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
 
@@ -22,8 +23,6 @@ function CreatePost() {
     return <p>You are not logged in.</p>;
   }
 
-  console.log(currentUser.id);
-
   const handlePublish = async (e) => {
     e.preventDefault();
 
@@ -31,13 +30,8 @@ function CreatePost() {
       id: postId,
       title: postTitle,
       text: post,
-      //   authorId je samo test, treba staviti userId
-      authorId: currentUser.id,
       published: true,
-      //   userId: currentUser.id,
     };
-
-    console.log(postData);
 
     try {
       const apiEndpoint = `http://localhost:3000/dashboard/posts`;
@@ -46,9 +40,17 @@ function CreatePost() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postData),
       });
+
+      if (response.status === 409) {
+        // Title already exists
+        const data = await response.json();
+        setErrorMessage(data.message); // Set this in your local state
+        return;
+      }
 
       if (!response.ok) {
         throw new Error("Failed to create post");
@@ -71,37 +73,39 @@ function CreatePost() {
       id: postId,
       title: postTitle,
       text: post,
-      //   authorId je samo test, treba staviti userId
-      authorId: currentUser.id,
       published: false,
-
-      //   userId: currentUser.id,
     };
 
-    console.log(postData);
-
     try {
-      const apiEndpoint = `http://localhost:3000/posts`;
+      const apiEndpoint = `http://localhost:3000/dashboard/posts`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postData),
       });
 
+      if (response.status === 409) {
+        // Title already exists
+        const data = await response.json();
+        setErrorMessage(data.message);
+        return;
+      }
+
       if (!response.ok) {
-        throw new Error("Failed to create post");
+        throw new Error("Failed to save draft");
       }
 
       const newPost = await response.json();
-      console.log("Post created successfully:", newPost);
+      console.log("Draft saved successfully:", newPost);
 
       setPost("");
-      navigate(`/posts/drafts/${currentUser.id}`);
+      navigate(`/dashboard/drafts`);
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error saving draft:", error);
     }
   };
   //   function handleCancelSubmit(event) {

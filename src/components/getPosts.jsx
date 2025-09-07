@@ -72,7 +72,7 @@ function GetPosts({
                 {" "}
                 <article className="post">
                   <h2>
-                    <Link to={`/posts/${post.id}`}>{post.title}</Link>
+                    <Link to={`/dashboard/posts/${post.id}`}>{post.title}</Link>
                   </h2>{" "}
                   <p className="post-text">{post.text}</p>
                   <div className="post-footer">

@@ -29,8 +29,6 @@ function GetStats() {
         },
       });
       const responseJson = await response.json();
-      console.log("stats");
-      console.log(responseJson);
       setPosts(responseJson);
     }
 
