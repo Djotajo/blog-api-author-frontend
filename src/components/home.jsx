@@ -2,6 +2,7 @@ import { useAuth } from "../context/AuthContext";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./login";
 import GetStats from "./getStats";
+import GetLastPost from "./getLastPost";
 
 function Home() {
   const { currentUser, loadingInitial } = useAuth();
@@ -23,12 +24,14 @@ function Home() {
             <Link to="/newPost" className="dashboard-item">
               <img src="/public/add-post.png" alt="View all posts" />
             </Link>
-            <Link to="/posts" className="dashboard-item">
+            <GetLastPost />
+
+            {/* <Link to="/posts" className="dashboard-item">
               <img src="/public/see-posts.png" alt="View all posts" />
             </Link>
             <Link to="/posts" className="dashboard-item">
               <img src="/public/see-posts.png" alt="View all posts" />
-            </Link>
+            </Link> */}
             <GetStats />
           </div>
         )}

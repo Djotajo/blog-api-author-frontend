@@ -13,6 +13,7 @@ import GetDraft from "./components/getDraft";
 import Home from "./components/home";
 import GetDrafts from "./components/getDrafts";
 import EditPost from "./components/editPost";
+import AuthRedirect from "./components/authRedirect";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
@@ -48,60 +49,10 @@ function AuthStatus() {
   }
 }
 
-// function App() {
-//   return (
-//     <AuthProvider>
-//       <Router>
-//         <nav>
-//           <h1>Random Blog Websites</h1>
-//           <ul className="nav-links">
-//             <li>
-//               <Link to="/">Home</Link>
-//             </li>
-//             <li>
-//               <Link to="/newPost">New Post</Link>
-//             </li>
-//             <li>
-//               <Link to={`/posts/drafts/`}>Drafts</Link>
-//             </li>
-//             <AuthStatus />
-//           </ul>
-//         </nav>
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/posts" element={<GetPosts />} />
-//           <Route
-//             path="/posts/drafts/:authorId"
-//             element={<GetPosts showPublished={false} />}
-//           />
-//           <Route path="/posts/drafts/:postId" element={<GetDraft />} />
-
-//           <Route path="/items" element={<GetPosts />} />
-//           <Route path="/newPost" element={<CreatePost />} />
-//           <Route path="/login" element={<Login />} />
-
-//           <Route path="/posts/:postId" element={<GetPost />} />
-//           <Route path="/posts/:postId/edit" element={<EditPost />} />
-
-//           <Route path="/signup" element={<SignUp />} />
-//         </Routes>
-
-//         <footer>
-//           <p>Made by Djotajo</p>
-//         </footer>
-//       </Router>
-//     </AuthProvider>
-//   );
-// }
-
-// export default App;
-
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <AppContent />
     </AuthProvider>
   );
 }

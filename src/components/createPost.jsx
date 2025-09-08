@@ -108,10 +108,11 @@ function CreatePost() {
       console.error("Error saving draft:", error);
     }
   };
-  //   function handleCancelSubmit(event) {
-  //     event.preventDefault();
-  //     handleCancel();
-  //   }
+
+  const handleCancelSubmit = async (event) => {
+    event.preventDefault();
+    navigate(`/`);
+  };
 
   return (
     <div className="new-post-fullscreen">
@@ -143,9 +144,7 @@ function CreatePost() {
           <button onClick={handleSaveDraft} type="button">
             Save as draft
           </button>
-
-          <button>Cancel</button>
-          {/* onClick={handleCancelSubmit} */}
+          <button onClick={handleCancelSubmit}>Cancel</button>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </fieldset>
       </form>

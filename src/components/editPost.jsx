@@ -74,6 +74,11 @@ function EditPost() {
     }
   };
 
+  const handleCancelSubmit = async (event) => {
+    event.preventDefault();
+    navigate(`/dashboard/posts`);
+  };
+
   return (
     <>
       <div className="edit-draft-fullscreen">
@@ -112,11 +117,7 @@ function EditPost() {
               ></textarea>
             </div>
             <button type="submit">Save changes</button>
-            {/* <button onClick={handleSaveDraft} type="button">
-            Unpublish post
-          </button> */}
-            <button>Cancel</button>
-            {/* onClick={handleCancelSubmit} */}
+            <button onClick={handleCancelSubmit}>Cancel</button>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           </fieldset>
         </form>

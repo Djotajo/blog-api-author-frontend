@@ -116,6 +116,11 @@ function GetDraft() {
     }
   };
 
+  const handleCancelSubmit = async (event) => {
+    event.preventDefault();
+    navigate(`/dashboard/drafts`);
+  };
+
   return (
     <>
       <div className="edit-draft-fullscreen">
@@ -149,8 +154,7 @@ function GetDraft() {
             <button onClick={handleSaveDraft} type="button">
               Save as draft
             </button>
-            <button>Cancel</button>
-            {/* onClick={handleCancelSubmit} */}
+            <button onClick={handleCancelSubmit}>Cancel</button>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           </fieldset>
         </form>
