@@ -19,7 +19,12 @@ function EditPost() {
     async function fetchPostData() {
       console.log(postId);
       const response = await fetch(
-        `http://localhost:3000/dashboard/posts/${postId}`
+        `http://localhost:3000/dashboard/posts/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const responseJson = await response.json();
       setPost(responseJson);

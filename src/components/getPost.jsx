@@ -14,7 +14,16 @@ function GetPost() {
   const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`);
+      const token = localStorage.getItem("jwt_token");
+
+      const response = await fetch(
+        `http://localhost:3000/dashboard/posts/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const responseJson = await response.json();
       setPost(responseJson);
     }

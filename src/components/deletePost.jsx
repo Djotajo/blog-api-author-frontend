@@ -6,19 +6,19 @@ function DeletePost() {
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwt_token");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // provjeriti api endpoint
-      const apiEndpoint = `http://localhost:3000/posts/${postId}`;
+      const apiEndpoint = `http://localhost:3000/dashboard/posts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
-        // provjeriti metodu
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json", // Tell the API we're sending JSON
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -26,10 +26,9 @@ function DeletePost() {
         throw new Error("Failed to delete post");
       }
 
-      // 4. Get the response from the API (e.g., the new comment object)
       const deletedPost = await response.json();
       console.log("Post deleted successfully:", deletedPost);
-      navigate(`/`);
+      navigate(`/dashboard/posts`);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -38,7 +37,6 @@ function DeletePost() {
   return (
     <form onSubmit={handleSubmit} className="delete-post-form">
       <button type="submit">Delete</button>
-      {/* onClick={handleCancelSubmit} */}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </form>
   );

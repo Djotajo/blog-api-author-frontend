@@ -16,7 +16,14 @@ function GetDraft() {
 
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`);
+      const response = await fetch(
+        `http://localhost:3000/dashboard/drafts/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const responseJson = await response.json();
       setPost(responseJson);
       setPostTitle(responseJson.title);

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import FormatPostDate from "./formatPostDate.jsx";
 
 function GetLastPost() {
   const [posts, setPosts] = useState([]);
@@ -43,9 +44,14 @@ function GetLastPost() {
     <>
       {lastPost ? (
         <div className="dashboard-item">
-          <Link to={`/dashboard/posts/${lastPost.id}`}>
-            <p>{lastPost.title}</p>
-          </Link>
+          <div className="dashboard-item-header">Latest Post</div>
+          <div className="dashboard-item-content">
+            {" "}
+            <Link to={`/dashboard/posts/${lastPost.id}`}>
+              <h4>{lastPost.title}</h4>
+              <p>{FormatPostDate(lastPost.createdAt)}</p>
+            </Link>
+          </div>
         </div>
       ) : (
         <p>No published posts yet.</p>
@@ -53,9 +59,13 @@ function GetLastPost() {
 
       {lastDraft ? (
         <div className="dashboard-item">
-          <Link to={`/dashboard/drafts/${lastDraft.id}`}>
-            {lastDraft.title}
-          </Link>
+          <div className="dashboard-item-header">Latest Draft</div>
+          <div className="dashboard-item-content">
+            <Link to={`/dashboard/drafts/${lastDraft.id}`}>
+              <h4>{lastDraft.title}</h4>
+              <p>{FormatPostDate(lastPost.createdAt)}</p>
+            </Link>
+          </div>
         </div>
       ) : (
         <p>No drafts yet.</p>

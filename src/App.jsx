@@ -104,10 +104,7 @@ function AppContent() {
             <Route path="/newPost" element={<CreatePost />} />
             <Route path="/dashboard/posts/:postId" element={<GetPost />} />
 
-            <Route
-              path="/posts/drafts/:authorId/:postId"
-              element={<GetDraft />}
-            />
+            <Route path="/dashboard/drafts/:postId" element={<GetDraft />} />
           </>
         )}
         <Route path="/login" element={<Login />} />

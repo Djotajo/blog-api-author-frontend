@@ -22,13 +22,6 @@ function GetPosts({
       });
       const posts = await res.json();
 
-      // const url = authorId
-      //   ? `http://localhost:3000/posts/drafts/${authorId}`
-      //   : `http://localhost:3000/posts/`;
-      // const response = await fetch(url);
-      // const responseJson = await response.json();
-      // console.log("ovdje isto ok");
-      // console.log(responseJson);
       setPosts(posts);
     }
 
@@ -46,7 +39,7 @@ function GetPosts({
                 {" "}
                 <article className="post">
                   <h2>
-                    <Link to={`/posts/drafts/${authorId}/${post.id}`}>
+                    <Link to={`/dashboard/drafts/${post.id}`}>
                       {post.title}
                     </Link>
                   </h2>{" "}
