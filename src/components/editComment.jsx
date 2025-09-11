@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function EditComment({ commentObject }, key) {
-  console.log(commentObject);
   const [comment, setComment] = useState(commentObject.text);
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -14,8 +14,6 @@ function EditComment({ commentObject }, key) {
   const { postId } = useParams();
 
   const commentId = commentObject.id;
-
-  console.log(commentId);
 
   // Handle the initial loading state (checking token in localStorage)
   if (loadingInitial) {
@@ -59,6 +57,7 @@ function EditComment({ commentObject }, key) {
       console.log("Comment edited successfully:", editedComment);
       setIsEditing(false);
       setComment("");
+      navigate(0);
     } catch (error) {
       console.error("Error editing comment:", error);
     }

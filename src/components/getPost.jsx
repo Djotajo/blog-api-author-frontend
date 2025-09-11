@@ -75,12 +75,12 @@ function GetPost() {
           {post.Comment.map((comment, index) => (
             <article key={comment.id || index} className="comment">
               <header>
-                <p>{comment.id}</p>
                 <cite className="comment-author">
                   {comment.commentByAuthor
                     ? comment.commentByAuthor.username
                     : comment.commentByUser.username}
-                </cite>
+                </cite>{" "}
+                on{" "}
                 <time dateTime={comment.createdAt} className="comment-date">
                   {new Date(comment.createdAt).toLocaleDateString()}
                 </time>

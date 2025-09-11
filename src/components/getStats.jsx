@@ -10,7 +10,6 @@ function GetStats() {
   const publishedPosts = posts.filter((post) => post.published);
   const draftPosts = posts.filter((post) => !post.published);
   const max = publishedPosts.length + draftPosts.length;
-  console.log(publishedPosts);
 
   const postHeight = (publishedPosts.length / max) * 100;
 

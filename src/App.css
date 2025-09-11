@@ -54,6 +54,8 @@ body {
 .posts {
   width: 100%;
   padding-top: 10vh;
+  height: calc(100vh - 5vh);
+  overflow-y: auto;
 }
 
 .posts ul {

@@ -45,6 +45,7 @@ function GetDraft() {
       title: postTitle,
       text: postText,
       published: true,
+      createdAt: new Date(),
     };
 
     try {
@@ -88,6 +89,7 @@ function GetDraft() {
       title: postTitle,
       text: postText,
       published: false,
+      createdAt: new Date(),
     };
 
     try {
@@ -114,7 +116,7 @@ function GetDraft() {
       }
 
       const newPost = await response.json();
-      console.log("Draft saved successfully:", newPost);
+      console.log("Draft saved successfully:");
 
       setPost("");
       navigate(`/dashboard/drafts`);

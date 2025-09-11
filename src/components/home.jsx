@@ -21,7 +21,7 @@ function Home() {
             <Link to={`/dashboard/drafts`} className="dashboard-item">
               <img src="/public/see-drafts.png" alt="View all drafts" />
             </Link>
-            <Link to="/newPost" className="dashboard-item">
+            <Link to="/dashboard/newPost" className="dashboard-item">
               <img src="/public/add-post.png" alt="View all posts" />
             </Link>
             <GetLastPost />

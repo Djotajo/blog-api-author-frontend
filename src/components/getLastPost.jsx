@@ -20,9 +20,6 @@ function GetLastPost() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   )[0];
 
-  console.log(lastPost);
-  console.log(lastDraft);
-
   useEffect(() => {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");

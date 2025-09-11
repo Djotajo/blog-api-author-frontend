@@ -59,7 +59,6 @@ function App() {
 
 function AppContent() {
   const { currentUser, loadingInitial } = useAuth();
-  console.log(currentUser);
   if (loadingInitial) return null;
 
   return (
@@ -73,12 +72,12 @@ function AppContent() {
                 <Link to="/">Home</Link>
               </li>
 
-              <li>
-                <Link to="/newPost">New Post</Link>
+              {/* <li>
+                <Link to="/dashboard/newPost">New Post</Link>
               </li>
               <li>
                 <Link to={`/dashboard/drafts/`}>Drafts</Link>
-              </li>
+              </li> */}
               <AuthStatus />
             </>
           )}
@@ -101,7 +100,7 @@ function AppContent() {
               element={<EditPost />}
             />
 
-            <Route path="/newPost" element={<CreatePost />} />
+            <Route path="/dashboard/newPost" element={<CreatePost />} />
             <Route path="/dashboard/posts/:postId" element={<GetPost />} />
 
             <Route path="/dashboard/drafts/:postId" element={<GetDraft />} />

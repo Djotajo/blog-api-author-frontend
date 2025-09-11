@@ -51,6 +51,7 @@ function EditPost() {
       title: postTitle,
       text: postText,
       published: published,
+      createdAt: new Date(),
     };
 
     try {
@@ -71,9 +72,9 @@ function EditPost() {
 
       const newPost = await response.json();
       console.log("Post edited successfully:", newPost);
-      navigate(`/`);
 
       setPost("");
+      navigate(`/dashboard/posts`);
     } catch (error) {
       console.error("Error editing post:", error);
     }
