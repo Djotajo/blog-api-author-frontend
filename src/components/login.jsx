@@ -1,15 +1,13 @@
 import { useState } from "react";
-import FormatPostDate from "./formatPostDate";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(""); // State to hold login error messages
-  const [loggedInUser, setLoggedInUser] = useState(null); // New state to temporarily hold decoded user info for display
-  const [tokenReceived, setTokenReceived] = useState(null); // New state to hold the raw token
+  const [loginError, setLoginError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [tokenReceived, setTokenReceived] = useState(null);
 
   const { login } = useAuth();
 
@@ -18,9 +16,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoginError(""); // Clear any previous errors on new submission
-    // setLoggedInUser(null);
-    // setTokenReceived(null);
+    setLoginError("");
 
     const userData = {
       username: username,
@@ -45,62 +41,19 @@ function Login() {
 
       const responseData = await response.json();
 
-      console.log("Login successful:", responseData);
-
       const token = responseData.token;
 
       if (token) {
         login(token);
-        console.log("Login sauccessful, global state updated.");
         navigate("/");
-      }
-      // localStorage.setItem("jwt_token", token);
-      // setTokenReceived(token);
-      // console.log("JWT Token stored in localStorage.");
-
-      // 3. Decode the token to get user information (username and id)
-      // This decoding is *only* for client-side display/initial check.
-      // The authoritative source for user identity is always the backend verifying the token.
-      // try {
-      //   const decodedToken = jwtDecode(token);
-      //   const { username: loggedInUsername, id: loggedInUserId } =
-      //     decodedToken;
-      //   setLoggedInUser({ username: loggedInUsername, id: loggedInUserId });
-      //   console.log(
-      //     `Decoded user: ${loggedInUsername} (ID: ${loggedInUserId})`
-      //   );
-
-      // --- Placeholder for Step 2: Global State Update (AuthContext) ---
-      // In the next step, after creating AuthContext, you would replace or add:
-      // login(loggedInUsername, loggedInUserId);
-      // (assuming 'login' is a function from useAuth() in AuthContext)
-      // --- END Placeholder ---
-
-      // 4. Navigate to a different page after successful login
-      // (You can uncomment this and direct it to your dashboard or home page)
-      // navigate('/dashboard');
-      //   } catch (decodeError) {
-      //     console.error(
-      //       "Error decoding JWT token on client-side:",
-      //       decodeError
-      //     );
-      //     // If the token itself is invalid or corrupted, clear it and inform the user
-      //     localStorage.removeItem("jwt_token");
-      //     setLoginError(
-      //       "Login successful, but there was an issue decoding the token. Please try again."
-      //     );
-      //     setLoggedInUser(null);
-      //     setTokenReceived(null);
-      //   }
-      // }
-      else {
+      } else {
         setLoginError(
           "Login successful, but no token was received from the server. Please contact support."
         );
       }
     } catch (error) {
       console.error("Error during login request:", error);
-      setLoginError(error.message); // Display the error message from the thrown error
+      setLoginError(error.message);
       setLoggedInUser(null);
       setTokenReceived(null);
     }
@@ -135,10 +88,6 @@ function Login() {
         <button type="submit">Log In</button>
       </form>
       <a href="/signup">No Account? Sign Up</a>
-      {/* ubaciti link za user site */}
-      <a href="/userSite">
-        Not an author? Check out the regular user site here
-      </a>
 
       {tokenReceived && (
         <div

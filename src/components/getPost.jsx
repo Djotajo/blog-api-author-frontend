@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function GetPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
+  const { currentUser, loadingInitial } = useAuth();
   useEffect(() => {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");
@@ -53,52 +53,53 @@ function GetPost() {
             {post.author.username} on {FormatPostDate(post.createdAt)}
           </p>
           {currentUser && post.author.id === currentUser.id ? (
-            <>
-              <Link to={`/dashboard/posts/${post.id}/edit`}>Edit</Link>
+            <div className="comment-actions">
+              <Link to={`/dashboard/posts/${post.id}/edit`} className="btn">
+                Edit
+              </Link>
               <DeletePost />
-            </>
+            </div>
           ) : (
             `Log in user to edit`
           )}
           <p>Comments: {post.Comment.length}</p>
         </section>
 
-        <section className="comment-form">
-          <h3>Add a comment</h3>
+        <section className="full-post-comment-form">
           <PostComment />
         </section>
         <section
-          className="comments-section"
-          aria-labelledby="comments-heading"
+          className="full-post-comments-section"
+          aria-labelledby="full-post-comments-heading"
         >
-          <h2 id="comments-heading">Comments</h2>
+          <h2 id="full-post-comments-heading">Comments</h2>
           {post.Comment.map((comment, index) => (
-            <article key={comment.id || index} className="comment">
+            <article key={comment.id || index} className="full-post-comment">
               <header>
-                <cite className="comment-author">
+                <cite className="full-post-comment-author">
                   {comment.commentByAuthor
                     ? comment.commentByAuthor.username
                     : comment.commentByUser.username}
                 </cite>{" "}
                 on{" "}
-                <time dateTime={comment.createdAt} className="comment-date">
+                <time
+                  dateTime={comment.createdAt}
+                  className="full-post-comment-date"
+                >
                   {new Date(comment.createdAt).toLocaleDateString()}
                 </time>
               </header>
-              <p className="comment-content">{comment.text}</p>
-              {/* provjeriti */}
-
+              <p className="full-post-comment-content">{comment.text}</p>
               {comment.commentByAuthor ? (
                 // currentUser && comment.commentByUser.id === currentUser.id ?
-                <>
+                <div className="comment-actions">
                   <EditComment commentObject={comment} key={comment.id} />
                   <DeleteComment commentObject={comment} />
-                </>
+                </div>
               ) : (
-                // : (
-                //   `Log in user to edit`
-                // )
-                <DeleteComment commentObject={comment} />
+                <div className="comment-actions">
+                  <DeleteComment commentObject={comment} />
+                </div>
               )}
             </article>
           ))}

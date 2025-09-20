@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,7 @@ function DeleteComment({ commentObject }) {
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("jwt_token");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,20 +25,22 @@ function DeleteComment({ commentObject }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete comment");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete comment");
       }
 
-      const deletedComment = await response.json();
-      console.log("Comment delete successfully:", deletedComment);
       navigate(0);
     } catch (error) {
       console.error("Error deleting comment:", error);
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="delete-comment-form">
-      <button type="submit">Delete</button>
+      <button type="submit" className="delete-btn">
+        Delete
+      </button>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </form>
   );

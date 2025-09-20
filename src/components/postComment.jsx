@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 function PostComment() {
   const [comment, setComment] = useState("");
-  const token = localStorage.getItem("jwt_token");
-
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const token = localStorage.getItem("jwt_token");
 
   const { postId } = useParams();
 
   const { currentUser, loadingInitial } = useAuth();
-  const navigate = useNavigate();
 
   if (loadingInitial) {
     return <p>Loading user information...</p>;
@@ -31,8 +30,6 @@ function PostComment() {
       parentId: postId,
     };
 
-    console.log(commentData);
-
     try {
       const apiEndpoint = `http://localhost:3000/dashboard/posts/${postId}/comments`;
 
@@ -46,35 +43,40 @@ function PostComment() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add comment");
-      }
+        const errorData = await response.json();
 
-      const newComment = await response.json();
-      console.log("Comment added successfully:", newComment);
+        throw new Error(errorData.message || "Failed to add comment");
+      }
 
       setComment("");
       navigate(0);
     } catch (error) {
       console.error("Error submitting comment:", error);
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="comment-form">
+      <form onSubmit={handleSubmit} className="full-post-comment-form">
         <fieldset>
-          <div>
-            <label htmlFor="comment">Comment: </label>
+          <legend>Add a comment</legend>
+
+          <div className="form-group">
             <textarea
               id="comment"
               name="comment"
               onChange={(e) => setComment(e.target.value)}
               required
-              autoFocus
+              value={comment}
+              aria-label="Comment"
               aria-required="true"
+              rows="4"
             ></textarea>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </fieldset>
       </form>

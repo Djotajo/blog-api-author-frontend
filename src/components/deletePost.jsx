@@ -36,7 +36,9 @@ function DeletePost() {
 
   return (
     <form onSubmit={handleSubmit} className="delete-post-form">
-      <button type="submit">Delete</button>
+      <button type="submit" className="delete-btn">
+        Delete
+      </button>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </form>
   );
