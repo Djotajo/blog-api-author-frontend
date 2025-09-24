@@ -11,14 +11,11 @@ function CreatePost() {
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
 
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
-
-  // Handle the initial loading state (checking token in localStorage)
+  const { currentUser, loadingInitial } = useAuth();
   if (loadingInitial) {
     return <p>Loading user information...</p>;
   }
 
-  // Check if there is a logged-in user
   if (!currentUser || !currentUser.isAuthenticated) {
     return <p>You are not logged in.</p>;
   }
@@ -46,18 +43,14 @@ function CreatePost() {
       });
 
       if (response.status === 409) {
-        // Title already exists
         const data = await response.json();
-        setErrorMessage(data.message); // Set this in your local state
+        setErrorMessage(data.message);
         return;
       }
 
       if (!response.ok) {
         throw new Error("Failed to create post");
       }
-
-      const newPost = await response.json();
-      console.log("Post created successfully:", newPost);
 
       setPost("");
       navigate(`/dashboard/posts/`);
@@ -89,7 +82,6 @@ function CreatePost() {
       });
 
       if (response.status === 409) {
-        // Title already exists
         const data = await response.json();
         setErrorMessage(data.message);
         return;
@@ -98,9 +90,6 @@ function CreatePost() {
       if (!response.ok) {
         throw new Error("Failed to save draft");
       }
-
-      const newPost = await response.json();
-      console.log("Draft saved successfully:", newPost);
 
       setPost("");
       navigate(`/dashboard/drafts`);
@@ -135,16 +124,16 @@ function CreatePost() {
               name="post"
               onChange={(e) => setPost(e.target.value)}
               required
-              autoFocus
               aria-required="true"
-              rows={25}
             ></textarea>
           </div>
-          <button type="submit">Publish</button>
-          <button onClick={handleSaveDraft} type="button">
-            Save as draft
-          </button>
-          <button onClick={handleCancelSubmit}>Cancel</button>
+          <div className="button-row">
+            <button type="submit">Publish</button>
+            <button type="button" onClick={handleSaveDraft}>
+              Save as draft
+            </button>
+            <button onClick={handleCancelSubmit}>Cancel</button>
+          </div>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </fieldset>
       </form>

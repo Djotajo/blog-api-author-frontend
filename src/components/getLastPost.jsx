@@ -40,30 +40,32 @@ function GetLastPost() {
   return (
     <>
       {lastPost ? (
-        <div className="dashboard-item">
+        <Link to={`/dashboard/posts/${lastPost.id}`} className="dashboard-item">
           <div className="dashboard-item-header">Latest Post</div>
           <div className="dashboard-item-content">
             {" "}
-            <Link to={`/dashboard/posts/${lastPost.id}`}>
-              <h4>{lastPost.title}</h4>
-              <p>{FormatPostDate(lastPost.createdAt)}</p>
-            </Link>
+            <h4>{lastPost.title}</h4>
+            <p className="draft-snippet">{lastPost.text.slice(0, 100)}...</p>
+            <p>{FormatPostDate(lastPost.createdAt)}</p>
           </div>
-        </div>
+        </Link>
       ) : (
         <p>No published posts yet.</p>
       )}
 
       {lastDraft ? (
-        <div className="dashboard-item">
+        <Link
+          to={`/dashboard/drafts/${lastDraft.id}`}
+          className="dashboard-item"
+        >
           <div className="dashboard-item-header">Latest Draft</div>
           <div className="dashboard-item-content">
-            <Link to={`/dashboard/drafts/${lastDraft.id}`}>
-              <h4>{lastDraft.title}</h4>
-              <p>{FormatPostDate(lastPost.createdAt)}</p>
-            </Link>
+            <h4>{lastDraft.title}</h4>
+            <p className="draft-snippet">{lastDraft.text.slice(0, 100)}...</p>
+
+            <p>{FormatPostDate(lastPost.createdAt)}</p>
           </div>
-        </div>
+        </Link>
       ) : (
         <p>No drafts yet.</p>
       )}

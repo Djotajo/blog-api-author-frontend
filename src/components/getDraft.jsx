@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +8,6 @@ function GetDraft() {
   const { postId } = useParams();
   const [postTitle, setPostTitle] = useState("");
   const [postText, setPostText] = useState("");
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
@@ -61,23 +59,21 @@ function GetDraft() {
       });
 
       if (response.status === 409) {
-        // Title already exists
         const data = await response.json();
-        setErrorMessage(data.message); // Set this in your local state
+        setErrorMessage(data.message);
         return;
       }
 
       if (!response.ok) {
-        throw new Error("Failed to create post");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create post");
       }
-
-      const newPost = await response.json();
-      console.log("Post created successfully:", newPost);
 
       setPost("");
       navigate(`/dashboard/posts/`);
     } catch (error) {
       console.error("Error creating post:", error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -105,23 +101,21 @@ function GetDraft() {
       });
 
       if (response.status === 409) {
-        // Title already exists
         const data = await response.json();
         setErrorMessage(data.message);
         return;
       }
 
       if (!response.ok) {
-        throw new Error("Failed to save draft");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to save draft");
       }
-
-      const newPost = await response.json();
-      console.log("Draft saved successfully:");
 
       setPost("");
       navigate(`/dashboard/drafts`);
     } catch (error) {
       console.error("Error saving draft:", error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -156,19 +150,21 @@ function GetDraft() {
                 required
                 autoFocus
                 aria-required="true"
-                rows={25}
               ></textarea>
             </div>
-            <button type="submit">Publish</button>
-            <button onClick={handleSaveDraft} type="button">
-              Save as draft
-            </button>
-            <button onClick={handleCancelSubmit}>Cancel</button>
+            <div className="button-row">
+              <button type="submit">Publish</button>
+              <button onClick={handleSaveDraft} type="button">
+                Save as draft
+              </button>
+              <button onClick={handleCancelSubmit}>Cancel</button>
+              <DeletePost postObject={post} />
+            </div>
+
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           </fieldset>
         </form>
       </div>
-      <DeletePost postObject={post} />
     </>
   );
 }

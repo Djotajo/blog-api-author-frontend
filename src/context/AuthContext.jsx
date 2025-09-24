@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
             exp: decoded.exp,
           });
         } else {
-          console.log("JWT Token expired.");
           localStorage.removeItem("jwt_token");
           setCurrentUser(null);
           navigate("/login");
@@ -34,11 +33,11 @@ export const AuthProvider = ({ children }) => {
           "Error decoding or verifying JWT token from localStorage:",
           error
         );
-        localStorage.removeItem("jwt_token"); // Remove invalid token
+        localStorage.removeItem("jwt_token");
         setCurrentUser(null);
       }
     }
-    setLoadingInitial(false); // Finished initial check
+    setLoadingInitial(false);
   }, [navigate]);
 
   useEffect(() => {
@@ -58,7 +57,7 @@ export const AuthProvider = ({ children }) => {
       navigate("/login");
     }, msUntilExpiry);
 
-    return () => clearTimeout(timeoutId); // cleanup on unmount or currentUser change
+    return () => clearTimeout(timeoutId);
   }, [currentUser, navigate]);
 
   const login = (token) => {
@@ -84,7 +83,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("jwt_token");
     setCurrentUser(null);
-    console.log("Logged out. Token removed from localStorage.");
   };
 
   const contextValue = {

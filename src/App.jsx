@@ -11,15 +11,13 @@ import SignUp from "./components/signup";
 import CreatePost from "./components/createPost";
 import GetDraft from "./components/getDraft";
 import Home from "./components/home";
-import GetDrafts from "./components/getDrafts";
 import EditPost from "./components/editPost";
-import AuthRedirect from "./components/authRedirect";
 
 function AuthStatus() {
   const { currentUser, logout, loadingInitial } = useAuth();
 
   if (loadingInitial) {
-    return null; // Or <span>Loading session...</span>;
+    return null;
   }
 
   if (currentUser && currentUser.isAuthenticated) {
@@ -72,12 +70,6 @@ function AppContent() {
                 <Link to="/">Home</Link>
               </li>
 
-              {/* <li>
-                <Link to="/dashboard/newPost">New Post</Link>
-              </li>
-              <li>
-                <Link to={`/dashboard/drafts/`}>Drafts</Link>
-              </li> */}
               <AuthStatus />
             </>
           )}

@@ -8,7 +8,6 @@ function Home() {
   const { currentUser, loadingInitial } = useAuth();
 
   return (
-    // <div className="home-div">
     <>
       {!currentUser && <Login />}
       {currentUser &&
@@ -16,27 +15,27 @@ function Home() {
         currentUser.role === "author" && (
           <div className="dashboard">
             <Link to="/dashboard/posts" className="dashboard-item">
-              <img src="/public/see-posts.png" alt="View all posts" />
+              <div className="dashboard-item-header">Posts</div>
+
+              <img src="/public/posts.jpg" alt="View all posts" />
             </Link>
+
             <Link to={`/dashboard/drafts`} className="dashboard-item">
-              <img src="/public/see-drafts.png" alt="View all drafts" />
+              <div className="dashboard-item-header">Drafts</div>
+
+              <img src="/public/coffee.jpg" alt="View all drafts" />
             </Link>
+
             <Link to="/dashboard/newPost" className="dashboard-item">
-              <img src="/public/add-post.png" alt="View all posts" />
+              <div className="dashboard-item-header">Create New Post</div>
+
+              <img src="/public/drafts.jpg" alt="View all posts" />
             </Link>
             <GetLastPost />
-
-            {/* <Link to="/posts" className="dashboard-item">
-              <img src="/public/see-posts.png" alt="View all posts" />
-            </Link>
-            <Link to="/posts" className="dashboard-item">
-              <img src="/public/see-posts.png" alt="View all posts" />
-            </Link> */}
             <GetStats />
           </div>
         )}
     </>
-    // </div>
   );
 }
 

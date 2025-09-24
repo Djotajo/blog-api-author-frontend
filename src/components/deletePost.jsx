@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -23,14 +23,14 @@ function DeletePost() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete post");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete post");
       }
 
-      const deletedPost = await response.json();
-      console.log("Post deleted successfully:", deletedPost);
       navigate(`/dashboard/posts`);
     } catch (error) {
       console.error("Error deleting post:", error);
+      setErrorMessage(error.message);
     }
   };
 

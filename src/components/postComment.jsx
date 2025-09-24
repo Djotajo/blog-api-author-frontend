@@ -44,7 +44,6 @@ function PostComment() {
 
       if (!response.ok) {
         const errorData = await response.json();
-
         throw new Error(errorData.message || "Failed to add comment");
       }
 

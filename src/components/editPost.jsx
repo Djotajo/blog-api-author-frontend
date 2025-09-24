@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
 import { useNavigate } from "react-router-dom";
 
@@ -10,14 +9,12 @@ function EditPost() {
   const [postTitle, setPostTitle] = useState("");
   const [postText, setPostText] = useState("");
   const [published, setPublished] = useState(true);
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
 
   useEffect(() => {
     async function fetchPostData() {
-      console.log(postId);
       const response = await fetch(
         `http://localhost:3000/dashboard/posts/${postId}`,
         {
@@ -67,16 +64,15 @@ function EditPost() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to edit post");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to edit post");
       }
-
-      const newPost = await response.json();
-      console.log("Post edited successfully:", newPost);
 
       setPost("");
       navigate(`/dashboard/posts`);
     } catch (error) {
       console.error("Error editing post:", error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -102,14 +98,16 @@ function EditPost() {
                 autoFocus
                 aria-required="true"
               />
+              <label htmlFor="publish">
+                Published:{" "}
+                <input
+                  type="checkbox"
+                  id="publish"
+                  checked={published}
+                  onChange={handleCheckboxChange}
+                />
+              </label>
               <label htmlFor="post">Post: </label>
-              <label htmlFor="publish">Published: </label>
-              <input
-                type="checkbox"
-                id="publish"
-                checked={published}
-                onChange={handleCheckboxChange}
-              />
 
               <textarea
                 id="postText"
@@ -119,15 +117,17 @@ function EditPost() {
                 required
                 autoFocus
                 aria-required="true"
-                rows={25}
               ></textarea>
             </div>
-            <button type="submit">Save changes</button>
-            <button onClick={handleCancelSubmit}>Cancel</button>
+            <div className="button-row">
+              <button type="submit">Save changes</button>
+              <button onClick={handleCancelSubmit}>Cancel</button>
+              <DeletePost postObject={post} />
+            </div>
+
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           </fieldset>
         </form>
-        <DeletePost postObject={post} />
       </div>
     </>
   );

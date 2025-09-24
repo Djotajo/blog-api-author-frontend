@@ -91,7 +91,6 @@ function GetPost() {
               </header>
               <p className="full-post-comment-content">{comment.text}</p>
               {comment.commentByAuthor ? (
-                // currentUser && comment.commentByUser.id === currentUser.id ?
                 <div className="comment-actions">
                   <EditComment commentObject={comment} key={comment.id} />
                   <DeleteComment commentObject={comment} />

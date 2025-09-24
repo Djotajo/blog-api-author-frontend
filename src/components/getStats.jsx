@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function GetStats() {
@@ -33,21 +32,16 @@ function GetStats() {
   }, [authorId]);
 
   return (
-    // <div className="dashboard-item">
-    //   <p>Total posts: {publishedPosts.length}</p>
-    //   <p>Total drafts {draftPosts.length}</p>
-    // </div>
     <div className="dashboard-item">
+      <div className="dashboard-item-header ">Stats</div>
       <div className="mini-chart">
         <div className="bar-group">
           <div
             className="bar posts-bar"
             style={{ height: `${postHeight}%` }}
             title={`Posts: ${publishedPosts.length}`}
-          >
-            <p>{publishedPosts.length}</p>
-          </div>
-          <span>Posts</span>
+          ></div>
+          <span>Posts: {publishedPosts.length}</span>
         </div>
 
         <div className="bar-group">
@@ -55,10 +49,8 @@ function GetStats() {
             className="bar drafts-bar"
             style={{ height: `${draftHeight}%` }}
             title={`Drafts: ${draftPosts.length}`}
-          >
-            <p>{draftPosts.length}</p>
-          </div>
-          <span>Drafts</span>
+          ></div>
+          <span>Drafts: {draftPosts.length}</span>
         </div>
       </div>
     </div>
