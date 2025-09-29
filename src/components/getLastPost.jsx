@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import FormatPostDate from "./formatPostDate.jsx";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetLastPost() {
   const [posts, setPosts] = useState([]);
-  const { currentUser, loadingInitial } = useAuth(); // Also get loadingInitial to handle async state
-
+  const { currentUser, loadingInitial } = useAuth();
   const authorId = currentUser.id;
   const publishedPosts = posts.filter((post) => post.published);
   const draftPosts = posts.filter((post) => !post.published);
+  const apiUrl = useApiUrl();
 
   const lastPost = [...publishedPosts].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -24,7 +24,7 @@ function GetLastPost() {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");
 
-      const url = `http://localhost:3000/dashboard/posts`;
+      const url = `${apiUrl}/dashboard/posts`;
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,

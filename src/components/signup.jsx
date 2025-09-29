@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const apiUrl = useApiUrl();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -14,7 +17,7 @@ function SignUp() {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/signup`;
+      const apiEndpoint = `${apiUrl}/signup`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",

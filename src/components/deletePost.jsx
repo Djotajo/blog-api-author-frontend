@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function DeletePost() {
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const apiEndpoint = `http://localhost:3000/dashboard/posts/${postId}`;
+      const apiEndpoint = `${apiUrl}/dashboard/posts/${postId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "DELETE",

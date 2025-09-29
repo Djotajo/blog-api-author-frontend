@@ -17,19 +17,19 @@ function Home() {
             <Link to="/dashboard/posts" className="dashboard-item">
               <div className="dashboard-item-header">Posts</div>
 
-              <img src="/public/posts.jpg" alt="View all posts" />
+              <img src="/posts.jpg" alt="View all posts" />
             </Link>
 
             <Link to={`/dashboard/drafts`} className="dashboard-item">
               <div className="dashboard-item-header">Drafts</div>
 
-              <img src="/public/coffee.jpg" alt="View all drafts" />
+              <img src="/coffee.jpg" alt="View all drafts" />
             </Link>
 
             <Link to="/dashboard/newPost" className="dashboard-item">
               <div className="dashboard-item-header">Create New Post</div>
 
-              <img src="/public/drafts.jpg" alt="View all posts" />
+              <img src="/drafts.jpg" alt="View all posts" />
             </Link>
             <GetLastPost />
             <GetStats />

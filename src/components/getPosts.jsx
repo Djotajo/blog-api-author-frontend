@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FormatPostDate from "./formatPostDate.jsx";
 import { Link } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetPosts({
   authorId = undefined,
@@ -11,11 +12,12 @@ function GetPosts({
 
   const publishedPosts = posts.filter((post) => post.published);
   const draftPosts = posts.filter((post) => !post.published);
+  const apiUrl = useApiUrl();
 
   useEffect(() => {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");
-      const res = await fetch("http://localhost:3000/dashboard/posts", {
+      const res = await fetch(`${apiUrl}/dashboard/posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

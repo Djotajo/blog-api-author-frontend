@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetStats() {
   const [posts, setPosts] = useState([]);
@@ -13,12 +14,13 @@ function GetStats() {
   const postHeight = (publishedPosts.length / max) * 100;
 
   const draftHeight = (draftPosts.length / max) * 100;
+  const apiUrl = useApiUrl();
 
   useEffect(() => {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");
 
-      const url = `http://localhost:3000/dashboard/posts`;
+      const url = `${apiUrl}/dashboard/posts`;
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,

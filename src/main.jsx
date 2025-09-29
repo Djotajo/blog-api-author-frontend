@@ -8,12 +8,15 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
+import { ApiUrlProvider } from "./context/ApiUrlContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <ApiUrlProvider>
+          <App />
+        </ApiUrlProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

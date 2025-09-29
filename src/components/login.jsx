@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -8,6 +9,7 @@ function Login() {
   const [loginError, setLoginError] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [tokenReceived, setTokenReceived] = useState(null);
+  const apiUrl = useApiUrl();
 
   const { login } = useAuth();
 
@@ -24,7 +26,7 @@ function Login() {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/login`;
+      const apiEndpoint = `${apiUrl}/login`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",

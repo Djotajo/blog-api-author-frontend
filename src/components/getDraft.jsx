@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DeletePost from "./deletePost";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetDraft() {
   const [post, setPost] = useState(null);
@@ -11,17 +12,15 @@ function GetDraft() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   useEffect(() => {
     async function fetchPostData() {
-      const response = await fetch(
-        `http://localhost:3000/dashboard/drafts/${postId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${apiUrl}/dashboard/drafts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const responseJson = await response.json();
       setPost(responseJson);
       setPostTitle(responseJson.title);

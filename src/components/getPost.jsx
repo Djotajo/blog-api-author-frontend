@@ -7,23 +7,23 @@ import DeleteComment from "./deleteComment";
 import { useAuth } from "../context/AuthContext";
 import DeletePost from "./deletePost";
 import { Link } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function GetPost() {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
   const { currentUser, loadingInitial } = useAuth();
+  const apiUrl = useApiUrl();
+
   useEffect(() => {
     async function fetchPostData() {
       const token = localStorage.getItem("jwt_token");
 
-      const response = await fetch(
-        `http://localhost:3000/dashboard/posts/${postId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${apiUrl}/dashboard/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const responseJson = await response.json();
       setPost(responseJson);
     }

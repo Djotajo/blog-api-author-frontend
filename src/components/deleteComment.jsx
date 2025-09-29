@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function DeleteComment({ commentObject }) {
   const commentId = commentObject.id;
   const { postId } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ function DeleteComment({ commentObject }) {
     e.preventDefault();
 
     try {
-      const apiEndpoint = `http://localhost:3000/dashboard/posts/${postId}/comments/${commentId}`;
+      const apiEndpoint = `${apiUrl}/dashboard/posts/${postId}/comments/${commentId}`;
 
       const response = await fetch(apiEndpoint, {
         method: "DELETE",

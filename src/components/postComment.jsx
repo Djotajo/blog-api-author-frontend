@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function PostComment() {
   const [comment, setComment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   const { postId } = useParams();
 
@@ -31,7 +33,7 @@ function PostComment() {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/dashboard/posts/${postId}/comments`;
+      const apiEndpoint = `${apiUrl}/dashboard/posts/${postId}/comments`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",

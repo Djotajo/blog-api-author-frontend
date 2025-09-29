@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { useApiUrl } from "../context/ApiUrlContext";
 
 function CreatePost() {
   const postId = uuidv4();
@@ -10,6 +11,7 @@ function CreatePost() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
+  const apiUrl = useApiUrl();
 
   const { currentUser, loadingInitial } = useAuth();
   if (loadingInitial) {
@@ -31,7 +33,7 @@ function CreatePost() {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/dashboard/posts`;
+      const apiEndpoint = `${apiUrl}/dashboard/posts`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",
@@ -70,7 +72,7 @@ function CreatePost() {
     };
 
     try {
-      const apiEndpoint = `http://localhost:3000/dashboard/posts`;
+      const apiEndpoint = `${apiUrl}/dashboard/posts`;
 
       const response = await fetch(apiEndpoint, {
         method: "POST",
